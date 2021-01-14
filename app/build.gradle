@@ -37,10 +37,12 @@ android {
 
 dependencies {
 
-    // Core
-    implementation Dependencies.Core.kotlin_sdlib
-    implementation Dependencies.Core.appcompat
+    // Module
+    implementation project(':extensions')
 
+    // Core
+    implementation Dependencies.Core.kotlin_stdlib
+    implementation Dependencies.Core.appcompat
 
     // UI
     implementation Dependencies.UI.constraint_layout
