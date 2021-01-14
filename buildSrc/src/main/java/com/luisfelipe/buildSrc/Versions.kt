@@ -12,14 +12,21 @@ object Versions {
     const val version_name = "1.0"
 
     // Core
+    const val kotlin = "1.4.21"
+    const val appcompat = "1.2.0"
+    const val core_ktx = "1.2.0"
+    const val constraint_layout = "2.0.4"
+
 
     // Data
 
     // UI
+    const val material = "1.2.1"
 
     // DI
 
     // Gradle
+
 
     // Test
 
