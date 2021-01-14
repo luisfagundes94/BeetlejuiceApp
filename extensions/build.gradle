@@ -2,7 +2,7 @@ import com.luisfelipe.buildSrc.Versions
 import com.luisfelipe.buildSrc.Dependencies
 
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
 }
 
@@ -11,7 +11,6 @@ android {
     buildToolsVersion Versions.build_tools
 
     defaultConfig {
-        applicationId "com.luisfelipe.beetlejuiceapp"
         minSdkVersion Versions.min_sdk
         targetSdkVersion Versions.target_sdk
         versionCode Versions.version_code
@@ -37,14 +36,11 @@ android {
 
 dependencies {
 
-    // Module
-    implementation project(':extensions')
-
     // Core
-    implementation Dependencies.Core.kotlin_stdlib
     implementation Dependencies.Core.appcompat
+    implementation Dependencies.Core.core_ktx
+    implementation Dependencies.Core.kotlin_stdlib
 
     // UI
-    implementation Dependencies.UI.constraint_layout
     implementation Dependencies.UI.material
 }
