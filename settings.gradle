@@ -1,3 +1,4 @@
+include ':movie'
 include ':extensions'
 include ':app'
 rootProject.name = "BeetlejuiceApp"
