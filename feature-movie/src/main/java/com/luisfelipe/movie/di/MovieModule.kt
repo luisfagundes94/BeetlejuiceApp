@@ -1,8 +1,8 @@
 package com.luisfelipe.movie.di
 
-import com.luisfelipe.movie.data.remote.repository_impl.RepositoryImpl
+import com.luisfelipe.movie.data.remote.repository_impl.MoviesRepositoryImpl
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
-import com.luisfelipe.movie.domain.repository.Repository
+import com.luisfelipe.movie.domain.repository.MoviesRepository
 import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
 import com.luisfelipe.movie.domain.usecase.GetMovieGenresFromApi
 import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
@@ -48,9 +48,9 @@ val movieModule = module {
 
     // Repositories
     factory {
-        RepositoryImpl(
+        MoviesRepositoryImpl(
             get<TheMovieDbService>()
-        ) as Repository
+        ) as MoviesRepository
     }
 
     // Services
