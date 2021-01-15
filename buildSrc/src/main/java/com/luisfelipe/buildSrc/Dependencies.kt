@@ -19,6 +19,7 @@ object Dependencies {
     object UI {
         const val constraint_layout = "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
         const val material = "com.google.android.material:material:${Versions.material}"
+        const val picasso = "com.squareup.picasso:picasso:${Versions.picasso}"
     }
 
     object DI {
