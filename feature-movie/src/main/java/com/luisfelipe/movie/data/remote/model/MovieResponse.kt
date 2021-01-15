@@ -1,7 +1,7 @@
-package com.luisfelipe.movie.data.local.model
+package com.luisfelipe.movie.data.remote.model
 
 data class MovieResponse(
-    val id: String,
+    val id: Int,
     val title: String,
     val vote_count: Int,
     val popularity: Int,
