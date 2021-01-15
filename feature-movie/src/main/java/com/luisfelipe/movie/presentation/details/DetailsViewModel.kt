@@ -8,15 +8,15 @@ import com.luisfelipe.movie.domain.enums.ResultStatus
 import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
-import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
-import com.luisfelipe.movie.domain.usecase.GetMovieGenresFromApi
-import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
+import com.luisfelipe.movie.domain.usecase.*
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
     private val getMovieDetailsFromApi: GetMovieDetailsFromApi,
     private val getSimilarMoviesFromApi: GetSimilarMoviesFromApi,
-    private val getMovieGenresFromApi: GetMovieGenresFromApi
+    private val getMovieGenresFromApi: GetMovieGenresFromApi,
+    private val getIsFavoriteMovieFromCache: GetIsFavoriteMovieFromCache,
+    private val setIsFavoriteMovieToCache: SetIsFavoriteMovieToCache
 ) : ViewModel() {
 
     private val _movieDetailsResultStatus = MutableLiveData<ResultStatus<Movie>>()

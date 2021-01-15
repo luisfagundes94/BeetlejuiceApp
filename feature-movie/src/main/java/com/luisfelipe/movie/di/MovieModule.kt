@@ -1,15 +1,17 @@
 package com.luisfelipe.movie.di
 
+import com.luisfelipe.movie.data.local.cache.FavoritesCache
+import com.luisfelipe.movie.data.local.repository_impl.FavoritesRepositoryImpl
 import com.luisfelipe.movie.data.remote.repository_impl.MoviesRepositoryImpl
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
+import com.luisfelipe.movie.domain.repository.FavoritesRepository
 import com.luisfelipe.movie.domain.repository.MoviesRepository
-import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
-import com.luisfelipe.movie.domain.usecase.GetMovieGenresFromApi
-import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
+import com.luisfelipe.movie.domain.usecase.*
 import com.luisfelipe.movie.presentation.details.DetailsViewModel
 import com.luisfelipe.movie.presentation.details.SimilarMovieListAdapter
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -26,7 +28,9 @@ val movieModule = module {
         DetailsViewModel(
             get<GetMovieDetailsFromApi>(),
             get<GetSimilarMoviesFromApi>(),
-            get<GetMovieGenresFromApi>()
+            get<GetMovieGenresFromApi>(),
+            get<GetIsFavoriteMovieFromCache>(),
+            get<SetIsFavoriteMovieToCache>()
         )
     }
 
@@ -34,17 +38,15 @@ val movieModule = module {
     factory { SimilarMovieListAdapter() }
 
     // Usecases
-    factory {
-        GetMovieDetailsFromApi(get())
-    }
+    factory { GetMovieDetailsFromApi(get()) }
 
-    factory {
-        GetSimilarMoviesFromApi(get())
-    }
+    factory { GetSimilarMoviesFromApi(get()) }
 
-    factory {
-        GetMovieGenresFromApi(get())
-    }
+    factory { GetMovieGenresFromApi(get()) }
+
+    factory { GetIsFavoriteMovieFromCache(get()) }
+
+    factory { SetIsFavoriteMovieToCache(get()) }
 
     // Repositories
     factory {
@@ -53,21 +55,21 @@ val movieModule = module {
         ) as MoviesRepository
     }
 
-    // Services
     factory {
-        getTheMovieDbService(get())
+        FavoritesRepositoryImpl(
+            get<FavoritesCache>()
+        ) as FavoritesRepository
     }
+
+    // Services
+    factory { getTheMovieDbService(get()) }
 
     // Retrofit
-    single {
-        createTheMovieDbRetrofit(get<OkHttpClient>())
-    }
+    single { createTheMovieDbRetrofit(get<OkHttpClient>()) }
 
-    factory {
-        createOkHttpClient()
-    }
+    factory { createOkHttpClient() }
 
-
+    factory { FavoritesCache(androidApplication()) }
 }
 
 private fun createTheMovieDbRetrofit(okHttpClient: OkHttpClient) = Retrofit.Builder()
