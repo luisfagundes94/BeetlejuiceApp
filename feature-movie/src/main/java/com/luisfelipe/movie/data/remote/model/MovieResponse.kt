@@ -4,6 +4,6 @@ data class MovieResponse(
     val id: Int,
     val title: String,
     val vote_count: Int,
-    val popularity: Int,
+    val popularity: Double,
     val backdrop_path: String
 )
