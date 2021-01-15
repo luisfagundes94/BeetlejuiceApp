@@ -34,6 +34,12 @@ object Dependencies {
 
     object Test {
         const val junit = "junit:junit:${Versions.junit}"
+        const val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+        const val mockk = "io.mockk:mockk:${Versions.mockk}"
+        const val arch_core = "androidx.arch.core:core-testing:${Versions.arch_core}"
+    }
 
+    object Lifecycle {
+        const val liveData = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.liveData}"
     }
 }
