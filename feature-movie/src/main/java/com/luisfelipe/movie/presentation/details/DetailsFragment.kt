@@ -13,12 +13,13 @@ import com.luisfelipe.movie.domain.enums.ResultStatus
 import com.luisfelipe.movie.domain.model.Movie
 import org.koin.android.ext.android.inject
 
-class DetailsFragment: Fragment(R.layout.fragment_details) {
+class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel by inject<DetailsViewModel>()
+    private val similarMovieListAdapter by inject<SimilarMovieListAdapter>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,16 +33,18 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //initRecyclerView()
+        initRecyclerView()
         initViewModelObservers()
 
         viewModel.getMovieDetails()
+        viewModel.getSimilarMovies()
     }
 
     private fun initRecyclerView() {
         binding.recyclerViewSimilarMovies.apply {
             setHasFixedSize(true)
             layoutManager = verticalRecyclerViewLayout()
+            adapter = similarMovieListAdapter
         }
     }
 
@@ -50,8 +53,21 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
             movieDetailsResultStatus.observe(viewLifecycleOwner, { resultStatus ->
                 when (resultStatus) {
                     is ResultStatus.Success -> setMovieInfo(resultStatus.data)
-                    is ResultStatus.Error -> {}
-                    else -> {}
+                    is ResultStatus.Error -> {
+                    }
+                    else -> {
+                    }
+                }
+            })
+            similarMoviesResultStatus.observe(viewLifecycleOwner, { resultStatus ->
+                when (resultStatus) {
+                    is ResultStatus.Success -> similarMovieListAdapter.updateSimilarMovies(
+                        resultStatus.data
+                    )
+                    is ResultStatus.Error -> {
+                    }
+                    else -> {
+                    }
                 }
             })
         }

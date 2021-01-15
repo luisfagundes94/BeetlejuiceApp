@@ -4,7 +4,9 @@ import com.luisfelipe.movie.data.remote.repository_impl.RepositoryImpl
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
 import com.luisfelipe.movie.domain.repository.Repository
 import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
+import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
 import com.luisfelipe.movie.presentation.details.DetailsViewModel
+import com.luisfelipe.movie.presentation.details.SimilarMovieListAdapter
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -21,13 +23,21 @@ val movieModule = module {
     // ViewModels
     viewModel {
         DetailsViewModel(
-            get<GetMovieDetailsFromApi>()
+            get<GetMovieDetailsFromApi>(),
+            get<GetSimilarMoviesFromApi>(),
         )
     }
+
+    // Adapters
+    factory { SimilarMovieListAdapter() }
 
     // Usecases
     factory {
         GetMovieDetailsFromApi(get())
+    }
+
+    factory {
+        GetSimilarMoviesFromApi(get())
     }
 
     // Repositories

@@ -4,6 +4,7 @@ import com.luisfelipe.movie.data.mapper.MovieMapper
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
 import com.luisfelipe.movie.domain.enums.ResultStatus
 import com.luisfelipe.movie.domain.model.Movie
+import com.luisfelipe.movie.domain.model.SimilarMovie
 import com.luisfelipe.movie.domain.repository.Repository
 import kotlinx.coroutines.withTimeout
 import java.io.IOException
@@ -30,8 +31,18 @@ class RepositoryImpl(private val theMovieDbService: TheMovieDbService): Reposito
         }
     }
 
-    override suspend fun getSimilarMovies(movieId: Int): ResultStatus<List<Movie>> {
-        TODO("Not yet implemented")
+    override suspend fun getSimilarMovies(movieId: Int): ResultStatus<List<SimilarMovie>> {
+        return withTimeout(REQUEST_TIMEOUT) {
+            try {
+                val response = theMovieDbService.getSimilarMovies(movieId)
+                if (response.code() in MIN_RESPONSE_CODE..MAX_RESPONSE_CODE) {
+                    val similarMovies = response.body()?.let { MovieMapper.mapResponseToDomain(it.results) }
+                    return@withTimeout ResultStatus.Success(similarMovies as List<SimilarMovie>)
+                } else return@withTimeout ResultStatus.Error(response.message())
+            } catch (exception: IOException) {
+                return@withTimeout ResultStatus.Error(exception.message.toString())
+            }
+        }
     }
 
 }
