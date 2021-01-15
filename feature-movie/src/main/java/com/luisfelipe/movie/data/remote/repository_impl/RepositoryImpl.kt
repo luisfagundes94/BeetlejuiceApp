@@ -1,6 +1,6 @@
 package com.luisfelipe.movie.data.remote.repository_impl
 
-import com.luisfelipe.movie.data.remote.mapper.MovieMapper
+import com.luisfelipe.movie.data.mapper.MovieMapper
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
 import com.luisfelipe.movie.domain.enums.ResultStatus
 import com.luisfelipe.movie.domain.model.Movie
