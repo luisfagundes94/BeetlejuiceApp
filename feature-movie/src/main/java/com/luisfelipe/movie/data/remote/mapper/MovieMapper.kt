@@ -1,6 +1,6 @@
-package com.luisfelipe.movie.data.local.mapper
+package com.luisfelipe.movie.data.remote.mapper
 
-import com.luisfelipe.movie.data.local.model.MovieResponse
+import com.luisfelipe.movie.data.remote.model.MovieResponse
 import com.luisfelipe.movie.domain.model.Movie
 
 class MovieMapper {
