@@ -4,5 +4,6 @@ data class Movie(
     val id: String,
     val title: String,
     val likes: Int,
-    val views: Int
+    val views: Int,
+    val backdrop: String
 )
