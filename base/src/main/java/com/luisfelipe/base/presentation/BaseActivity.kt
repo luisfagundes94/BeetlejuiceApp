@@ -2,13 +2,14 @@ package com.luisfelipe.base.presentation
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.luisfelipe.base.R
 import com.luisfelipe.movie.R.navigation.movie_navigation
 
-class BaseActivity: AppCompatActivity() {
+class BaseActivity : AppCompatActivity() {
 
     private lateinit var navigationController: NavController
 
@@ -16,6 +17,7 @@ class BaseActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState, persistentState)
         setContentView(R.layout.activity_base)
 
+        Toast.makeText(this, "base activity", Toast.LENGTH_SHORT).show()
         setUpNavigation()
         setUpToolbar()
     }

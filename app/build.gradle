@@ -38,10 +38,10 @@ android {
 dependencies {
 
     // Module
+    implementation project(':base')
     implementation project(':extensions')
     implementation project(':feature-movie')
     implementation project(':resources')
-    implementation project(':base')
 
     // Core
     implementation Dependencies.Core.kotlin_stdlib
