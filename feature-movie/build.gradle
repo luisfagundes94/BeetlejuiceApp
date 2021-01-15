@@ -70,5 +70,7 @@ dependencies {
 
     // Test
     implementation Dependencies.Test.junit
+    implementation Dependencies.Test.coroutines
+    implementation Dependencies.Test.mockk
 
 }
