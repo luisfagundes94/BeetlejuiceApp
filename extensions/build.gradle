@@ -41,6 +41,9 @@ dependencies {
     implementation Dependencies.Core.core_ktx
     implementation Dependencies.Core.kotlin_stdlib
 
+    // Lifecycle
+    implementation Dependencies.Lifecycle.liveData
+
     // UI
     implementation Dependencies.UI.material
     implementation Dependencies.UI.picasso

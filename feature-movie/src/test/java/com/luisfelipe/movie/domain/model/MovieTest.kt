@@ -1,7 +1,7 @@
 package com.luisfelipe.movie.domain.model
 
 import com.luisfelipe.utils.FakeDataSource.BACKDROP
-import com.luisfelipe.utils.FakeDataSource.ID
+import com.luisfelipe.utils.FakeDataSource.MOVIE_ID
 import com.luisfelipe.utils.FakeDataSource.TITLE
 import com.luisfelipe.utils.FakeDataSource.VIEWS
 import org.junit.Test
@@ -14,7 +14,7 @@ internal class MovieTest {
     @Test
     fun `should return formatted number of views given a decimal number`() {
         val fakeMovie = Movie(
-            id = ID,
+            id = MOVIE_ID,
             title = TITLE,
             likes = 1_456_653,
             views = VIEWS,
@@ -28,7 +28,7 @@ internal class MovieTest {
     @Test
     fun `should return formatted number of views given a number greater then 1_000`() {
         val fakeMovie = Movie(
-            id = ID,
+            id = MOVIE_ID,
             title = TITLE,
             likes = 4000,
             views = VIEWS,
@@ -43,7 +43,7 @@ internal class MovieTest {
     @Test
     fun `should return formatted number of views given a number greater then 10_000`() {
         val fakeMovie = Movie(
-            id = ID,
+            id = MOVIE_ID,
             title = TITLE,
             likes = 12_000,
             views = VIEWS,
@@ -57,7 +57,7 @@ internal class MovieTest {
     @Test
     fun `should return formatted number of views given a number greater then 100_000`() {
         val fakeMovie = Movie(
-            id = ID,
+            id = MOVIE_ID,
             title = TITLE,
             likes = 120_000,
             views = VIEWS,
@@ -71,7 +71,7 @@ internal class MovieTest {
     @Test
     fun `should return formatted number of views given a number greater then 100_000_000`() {
         val fakeMovie = Movie(
-            id = ID,
+            id = MOVIE_ID,
             title = TITLE,
             likes = 120_000_000,
             views = VIEWS,

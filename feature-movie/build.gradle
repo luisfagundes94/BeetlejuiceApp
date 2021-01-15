@@ -69,8 +69,9 @@ dependencies {
     implementation Dependencies.Data.ok_http
 
     // Test
-    implementation Dependencies.Test.junit
-    implementation Dependencies.Test.coroutines
-    implementation Dependencies.Test.mockk
+    testImplementation Dependencies.Test.junit
+    testImplementation Dependencies.Test.coroutines
+    testImplementation Dependencies.Test.mockk
+    testImplementation Dependencies.Test.arch_core
 
 }
