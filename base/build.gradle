@@ -40,6 +40,9 @@ android {
 
 dependencies {
 
+    // Module
+    implementation project(':feature-movie')
+
     // Core
     implementation Dependencies.Core.kotlin_stdlib
     implementation Dependencies.Core.core_ktx

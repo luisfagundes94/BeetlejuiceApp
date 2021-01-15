@@ -7,10 +7,10 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:contentDescription="@string/img_description_backdrop"
         android:id="@+id/backdrop"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/img_description_backdrop"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/horizontal_guideline"
         app:layout_constraintEnd_toEndOf="parent"
