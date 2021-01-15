@@ -60,8 +60,8 @@ class DetailsFragment: Fragment(R.layout.fragment_details) {
     private fun setMovieInfo(movie: Movie) {
         binding.backdrop.load(movie.backdrop)
         binding.title.text = movie.title
-        binding.likes.text = "${movie.getFormattedLikes()} Likes"
-        binding.views.text = "${movie.views} Views"
+        binding.likes.text = getString(R.string.number_of_likes, movie.getFormattedLikes())
+        binding.views.text = getString(R.string.number_of_views, movie.views)
     }
 
     override fun onDestroy() {
