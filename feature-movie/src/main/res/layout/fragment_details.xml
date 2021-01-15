@@ -48,23 +48,25 @@
         tools:text="1.5K Likes" />
 
     <ImageView
-        android:contentDescription="@string/img_desc_likes_icon"
         android:id="@+id/img_likes_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/img_desc_likes_icon"
         app:layout_constraintStart_toStartOf="@+id/title"
         app:layout_constraintTop_toBottomOf="@+id/title"
         app:srcCompat="@drawable/ic_baseline_favorite_24" />
 
     <TextView
         android:id="@+id/views"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/likes"
-        app:layout_constraintStart_toEndOf="@+id/likes"
-        app:layout_constraintTop_toTopOf="@+id/likes"
+        android:layout_marginStart="4dp"
+        android:gravity="start"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
         tools:text="14k Views" />
 
     <ImageView
@@ -88,4 +90,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_likes_icon" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/img_likes_icon"
+        app:layout_constraintStart_toEndOf="@+id/likes"
+        app:layout_constraintTop_toTopOf="@+id/img_likes_icon"
+        app:srcCompat="@drawable/ic_baseline_visibility_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

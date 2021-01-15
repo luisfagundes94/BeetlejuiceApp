@@ -33,5 +33,5 @@ object Versions {
 
 
     // Test
-
+    const val junit = "4.13.1"
 }

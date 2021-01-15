@@ -68,4 +68,7 @@ dependencies {
     implementation Dependencies.Data.gson
     implementation Dependencies.Data.ok_http
 
+    // Test
+    implementation Dependencies.Test.junit
+
 }
