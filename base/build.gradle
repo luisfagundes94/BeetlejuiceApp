@@ -44,6 +44,8 @@ dependencies {
     implementation Dependencies.Core.kotlin_stdlib
     implementation Dependencies.Core.core_ktx
     implementation Dependencies.Core.appcompat
+    implementation Dependencies.Core.navigation_fragment
+    implementation Dependencies.Core.navigation_ui
 
     // UI
     implementation Dependencies.UI.constraint_layout
