@@ -61,7 +61,7 @@ class DetailsViewModelTest {
     )
 
     @Test
-    fun `should return movie details when movieDetailsResultStatus is successful`() {
+    fun `should return movie details when getMovieDetails is successful`() {
         // Arrange
         coEvery { getMovieDetailsFromApi(MOVIE_ID) } returns ResultStatus.Success(fakeMovie)
 
@@ -76,7 +76,7 @@ class DetailsViewModelTest {
     }
 
     @Test
-    fun `should return an error message when movieDetailsResultStatus is unsuccessful`() {
+    fun `should return an error message when getMovieDetails is unsuccessful`() {
         // Arrange
         coEvery { getMovieDetailsFromApi(MOVIE_ID) } returns ResultStatus.Error(ERROR_MESSAGE)
 
@@ -91,7 +91,7 @@ class DetailsViewModelTest {
     }
 
     @Test
-    fun `should return a list of similar movies when similiarMoviesResultStatus is successful`() {
+    fun `should return a list of similar movies when getSimilarMovies is successful`() {
         // Arrange
         coEvery { getSimilarMoviesFromApi(MOVIE_ID) } returns ResultStatus.Success(
             fakeSimilarMovieList
@@ -102,12 +102,13 @@ class DetailsViewModelTest {
             viewModel.getSimilarMovies()
         }
 
+        // Assert
         val expectedValue = viewModel.similarMoviesResultStatus.getOrAwaitValue()
         assert(expectedValue == ResultStatus.Success(fakeSimilarMovieList))
     }
 
     @Test
-    fun `should return an error message when similarMoviesResultStatus is unsuccessful`() {
+    fun `should return an error message when getSimilarMovies is unsuccessful`() {
         // Arrange
         coEvery { getSimilarMoviesFromApi(MOVIE_ID) } returns ResultStatus.Error(ERROR_MESSAGE)
 
@@ -116,6 +117,7 @@ class DetailsViewModelTest {
             viewModel.getSimilarMovies()
         }
 
+        // Assert
         val expectedValue = viewModel.similarMoviesResultStatus.getOrAwaitValue()
         assert(expectedValue == ResultStatus.Error(ERROR_MESSAGE))
     }
