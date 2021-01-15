@@ -16,7 +16,7 @@ object Versions {
     const val appcompat = "1.2.0"
     const val core_ktx = "1.2.0"
     const val constraint_layout = "2.0.4"
-
+    const val navigation = "2.3.1"
 
     // Data
 
