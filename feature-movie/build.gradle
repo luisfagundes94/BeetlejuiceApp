@@ -44,10 +44,11 @@ dependencies {
     implementation Dependencies.Core.kotlin_stdlib
     implementation Dependencies.Core.core_ktx
     implementation Dependencies.Core.appcompat
+    implementation Dependencies.Core.navigation_fragment
+    implementation Dependencies.Core.navigation_ui
 
     // UI
     implementation Dependencies.UI.material
     implementation Dependencies.UI.constraint_layout
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
+
 }
