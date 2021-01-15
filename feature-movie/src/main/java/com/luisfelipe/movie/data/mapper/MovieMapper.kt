@@ -2,7 +2,6 @@ package com.luisfelipe.movie.data.mapper
 
 import com.luisfelipe.movie.data.remote.model.MovieResponse
 import com.luisfelipe.movie.data.remote.model.SimilarMovieResponse
-import com.luisfelipe.movie.di.movieModule
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
 
@@ -27,6 +26,7 @@ class MovieMapper {
                     title = similarMovieResponse.title,
                     releaseDate = similarMovieResponse.release_date,
                     poster = BASE_IMAGE_PATH + similarMovieResponse.poster_path,
+                    genreIds = similarMovieResponse.genre_ids
                 )
                 similarMovies.add(similarMovie)
             }

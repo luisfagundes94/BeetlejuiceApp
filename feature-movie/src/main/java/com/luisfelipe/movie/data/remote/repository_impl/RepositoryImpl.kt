@@ -1,12 +1,15 @@
 package com.luisfelipe.movie.data.remote.repository_impl
 
+import com.luisfelipe.movie.data.mapper.GenreMapper
 import com.luisfelipe.movie.data.mapper.MovieMapper
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
 import com.luisfelipe.movie.domain.enums.ResultStatus
+import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
 import com.luisfelipe.movie.domain.repository.Repository
 import kotlinx.coroutines.withTimeout
+import okhttp3.Response
 import java.io.IOException
 
 class RepositoryImpl(private val theMovieDbService: TheMovieDbService): Repository {
@@ -38,6 +41,20 @@ class RepositoryImpl(private val theMovieDbService: TheMovieDbService): Reposito
                 if (response.code() in MIN_RESPONSE_CODE..MAX_RESPONSE_CODE) {
                     val similarMovies = response.body()?.let { MovieMapper.mapResponseToDomain(it.results) }
                     return@withTimeout ResultStatus.Success(similarMovies as List<SimilarMovie>)
+                } else return@withTimeout ResultStatus.Error(response.message())
+            } catch (exception: IOException) {
+                return@withTimeout ResultStatus.Error(exception.message.toString())
+            }
+        }
+    }
+
+    override suspend fun getMovieGenres(): ResultStatus<List<Genre>> {
+        return withTimeout(REQUEST_TIMEOUT) {
+            try {
+                val response = theMovieDbService.getMovieGenres()
+                if (response.code() in MIN_RESPONSE_CODE..MAX_RESPONSE_CODE) {
+                    val genres = response.body()?.let { GenreMapper.mapResponseToDomain(it.genres) }
+                    return@withTimeout ResultStatus.Success(genres as List<Genre>)
                 } else return@withTimeout ResultStatus.Error(response.message())
             } catch (exception: IOException) {
                 return@withTimeout ResultStatus.Error(exception.message.toString())

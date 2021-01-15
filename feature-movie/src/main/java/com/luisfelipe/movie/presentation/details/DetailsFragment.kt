@@ -38,6 +38,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         viewModel.getMovieDetails()
         viewModel.getSimilarMovies()
+        viewModel.getMovieGenres()
     }
 
     private fun initRecyclerView() {
@@ -68,6 +69,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     }
                     else -> {
                     }
+                }
+            })
+            movieGenresResultStatus.observe(viewLifecycleOwner, { resultStatus ->
+                when (resultStatus) {
+                    is ResultStatus.Success -> getGenreNamesFromIds(resultStatus.data, listOf(28, 12, 16))
+                    else -> {}
                 }
             })
         }

@@ -1,6 +1,7 @@
 package com.luisfelipe.movie.data.remote.service
 
 import com.luisfelipe.movie.BuildConfig
+import com.luisfelipe.movie.data.remote.model.GenresBodyResponse
 import com.luisfelipe.movie.data.remote.model.MovieResponse
 import com.luisfelipe.movie.data.remote.model.SimilarMoviesBodyResponse
 import retrofit2.Response
@@ -21,4 +22,9 @@ interface TheMovieDbService {
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = BuildConfig.THE_MOVIE_DB_API_KEY
     ): Response<SimilarMoviesBodyResponse>
+
+    @GET("genre/movie/list")
+    suspend fun getMovieGenres(
+        @Query("api_key") apiKey: String = BuildConfig.THE_MOVIE_DB_API_KEY
+    ): Response<GenresBodyResponse>
 }
