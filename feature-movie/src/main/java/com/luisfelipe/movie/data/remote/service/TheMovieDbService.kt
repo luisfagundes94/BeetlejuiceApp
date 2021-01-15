@@ -23,7 +23,7 @@ interface TheMovieDbService {
         @Query("api_key") apiKey: String = BuildConfig.THE_MOVIE_DB_API_KEY
     ): Response<SimilarMoviesBodyResponse>
 
-    @GET("movie/genre/list")
+    @GET("genre/movie/list")
     suspend fun getMovieGenres(
         @Query("api_key") apiKey: String = BuildConfig.THE_MOVIE_DB_API_KEY
     ): Response<GenresBodyResponse>

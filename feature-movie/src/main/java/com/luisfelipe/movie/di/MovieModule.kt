@@ -4,6 +4,7 @@ import com.luisfelipe.movie.data.remote.repository_impl.RepositoryImpl
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
 import com.luisfelipe.movie.domain.repository.Repository
 import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
+import com.luisfelipe.movie.domain.usecase.GetMovieGenresFromApi
 import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
 import com.luisfelipe.movie.presentation.details.DetailsViewModel
 import com.luisfelipe.movie.presentation.details.SimilarMovieListAdapter
@@ -25,6 +26,7 @@ val movieModule = module {
         DetailsViewModel(
             get<GetMovieDetailsFromApi>(),
             get<GetSimilarMoviesFromApi>(),
+            get<GetMovieGenresFromApi>()
         )
     }
 
@@ -38,6 +40,10 @@ val movieModule = module {
 
     factory {
         GetSimilarMoviesFromApi(get())
+    }
+
+    factory {
+        GetMovieGenresFromApi(get())
     }
 
     // Repositories

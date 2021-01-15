@@ -5,35 +5,51 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.luisfelipe.movie.domain.enums.ResultStatus
+import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
 import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
+import com.luisfelipe.movie.domain.usecase.GetMovieGenresFromApi
 import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
     private val getMovieDetailsFromApi: GetMovieDetailsFromApi,
     private val getSimilarMoviesFromApi: GetSimilarMoviesFromApi,
+    private val getMovieGenresFromApi: GetMovieGenresFromApi
 ) : ViewModel() {
 
-    private val movieDetailsResultStatusLiveData = MutableLiveData<ResultStatus<Movie>>()
-    val movieDetailsResultStatus: LiveData<ResultStatus<Movie>> = movieDetailsResultStatusLiveData
+    private val _movieDetailsResultStatus = MutableLiveData<ResultStatus<Movie>>()
+    val movieDetailsResultStatus: LiveData<ResultStatus<Movie>> = _movieDetailsResultStatus
 
-    private val similarMoviesResultStatusLiveData =
+    private val _similarMoviesResultStatus =
         MutableLiveData<ResultStatus<List<SimilarMovie>>>()
-    val similarMoviesResultStatus = similarMoviesResultStatusLiveData
+    val similarMoviesResultStatus = _similarMoviesResultStatus
+
+    private val _movieGenresResultStatus = MutableLiveData<ResultStatus<List<Genre>>>()
+    val movieGenres: LiveData<ResultStatus<List<Genre>>> = _movieGenresResultStatus
 
     private companion object {
-        const val BEETLEJUICE_ID = 4011
+        const val BEETLEJUICE_MOVIE_ID = 4011
     }
 
     fun getMovieDetails() = viewModelScope.launch {
-        val movieDetailsResultStatus = getMovieDetailsFromApi(BEETLEJUICE_ID)
-        movieDetailsResultStatusLiveData.postValue(movieDetailsResultStatus)
+        val movieDetailsResultStatus = getMovieDetailsFromApi(BEETLEJUICE_MOVIE_ID)
+        _movieDetailsResultStatus.postValue(movieDetailsResultStatus)
     }
 
     fun getSimilarMovies() = viewModelScope.launch {
-        val similarMoviesResultStatus = getSimilarMoviesFromApi(BEETLEJUICE_ID)
-        similarMoviesResultStatusLiveData.postValue(similarMoviesResultStatus)
+        val similarMoviesResultStatus = getSimilarMoviesFromApi(BEETLEJUICE_MOVIE_ID)
+        _similarMoviesResultStatus.postValue(similarMoviesResultStatus)
+    }
+
+    fun getMovieGenres() = viewModelScope.launch {
+        val movieGenresResultStatus = getMovieGenresFromApi()
+        _movieGenresResultStatus.postValue(movieGenresResultStatus)
+    }
+
+    fun getGenreNamesFromIds(genres: List<Genre>, genreIds: List<Int>): List<String> {
+        val filteredGenres = genres.filter { genre -> genreIds.contains(genre.id) }
+        return filteredGenres.map { it.name }
     }
 }
