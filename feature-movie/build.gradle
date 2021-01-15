@@ -56,4 +56,9 @@ dependencies {
     implementation Dependencies.DI.koin_core
     implementation Dependencies.DI.koin_view_model
 
+    // Data
+    implementation Dependencies.Data.retrofit
+    implementation Dependencies.Data.gson
+    implementation Dependencies.Data.ok_http
+
 }

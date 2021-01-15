@@ -11,7 +11,9 @@ object Dependencies {
     }
 
     object Data {
-
+        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+        const val gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+        const val ok_http = "com.squareup.okhttp3:logging-interceptor:${Versions.ok_http}"
     }
 
     object UI {
