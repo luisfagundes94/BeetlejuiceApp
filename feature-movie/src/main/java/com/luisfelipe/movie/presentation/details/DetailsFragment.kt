@@ -71,7 +71,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     }
                 }
             })
-            movieGenres.observe(viewLifecycleOwner, { resultStatus ->
+            movieGenresResultStatus.observe(viewLifecycleOwner, { resultStatus ->
                 when (resultStatus) {
                     is ResultStatus.Success -> getGenreNamesFromIds(resultStatus.data, listOf(28, 12, 16))
                     else -> {}

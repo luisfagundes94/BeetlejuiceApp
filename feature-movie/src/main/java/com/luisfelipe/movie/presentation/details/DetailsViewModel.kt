@@ -27,7 +27,7 @@ class DetailsViewModel(
     val similarMoviesResultStatus = _similarMoviesResultStatus
 
     private val _movieGenresResultStatus = MutableLiveData<ResultStatus<List<Genre>>>()
-    val movieGenres: LiveData<ResultStatus<List<Genre>>> = _movieGenresResultStatus
+    val movieGenresResultStatus: LiveData<ResultStatus<List<Genre>>> = _movieGenresResultStatus
 
     private companion object {
         const val BEETLEJUICE_MOVIE_ID = 4011
