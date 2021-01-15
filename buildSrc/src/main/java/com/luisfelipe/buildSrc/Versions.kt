@@ -24,6 +24,7 @@ object Versions {
     const val material = "1.2.1"
 
     // DI
+    const val koin = "2.2.0-rc-4"
 
     // Gradle
 

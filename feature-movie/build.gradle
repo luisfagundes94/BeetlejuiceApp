@@ -51,4 +51,9 @@ dependencies {
     implementation Dependencies.UI.material
     implementation Dependencies.UI.constraint_layout
 
+    // DI
+    implementation Dependencies.DI.koin
+    implementation Dependencies.DI.koin_core
+    implementation Dependencies.DI.koin_view_model
+
 }

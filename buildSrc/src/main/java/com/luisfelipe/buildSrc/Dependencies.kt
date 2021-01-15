@@ -20,7 +20,9 @@ object Dependencies {
     }
 
     object DI {
-
+        const val koin = "org.koin:koin-android:${Versions.koin}"
+        const val koin_core = "org.koin:koin-core:${Versions.koin}"
+        const val koin_view_model = "org.koin:koin-androidx-viewmodel:${Versions.koin}"
     }
 
     object Gradle {
