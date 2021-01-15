@@ -10,6 +10,7 @@ class Application: Application() {
     override fun onCreate() {
         super.onCreate()
 
+        initKoin()
     }
 
     private fun initKoin() {
