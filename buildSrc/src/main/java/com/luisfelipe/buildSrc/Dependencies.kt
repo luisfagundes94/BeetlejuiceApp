@@ -33,6 +33,7 @@ object Dependencies {
     }
 
     object Test {
+        const val junit = "junit:junit:${Versions.junit}"
 
     }
 }
