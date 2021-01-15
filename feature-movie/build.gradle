@@ -28,6 +28,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            buildConfigField "String","THE_MOVIE_DB_API_KEY", THE_MOVIE_DB_API_KEY
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -39,6 +43,9 @@ android {
 }
 
 dependencies {
+
+    // Module
+    implementation project(':extensions')
 
     // Core
     implementation Dependencies.Core.kotlin_stdlib
