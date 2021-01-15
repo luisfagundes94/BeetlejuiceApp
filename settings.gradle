@@ -1,3 +1,4 @@
+include ':resources'
 include ':feature-movie'
 include ':extensions'
 include ':app'
