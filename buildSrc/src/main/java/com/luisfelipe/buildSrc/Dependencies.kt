@@ -14,6 +14,8 @@ object Dependencies {
         const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
         const val gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
         const val ok_http = "com.squareup.okhttp3:logging-interceptor:${Versions.ok_http}"
+        const val data_store = "androidx.datastore:datastore-preferences:${Versions.data_store}"
+
     }
 
     object UI {
