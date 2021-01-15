@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="img_description_backdrop">Poster do filme</string>
+    <string name="img_desc_likes_icon">Ícone de likes</string>
+    <string name="img_desc_favorite_icon">Ícone de coração para favoritar o filme</string>
+</resources>
