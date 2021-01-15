@@ -19,10 +19,18 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding true
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            buildConfigField "String","THE_MOVIE_DB_API_KEY", THE_MOVIE_DB_API_KEY
         }
     }
     compileOptions {
@@ -36,14 +44,28 @@ android {
 
 dependencies {
 
+    // Module
+    implementation project(':extensions')
+
     // Core
     implementation Dependencies.Core.kotlin_stdlib
     implementation Dependencies.Core.core_ktx
     implementation Dependencies.Core.appcompat
+    implementation Dependencies.Core.navigation_fragment
+    implementation Dependencies.Core.navigation_ui
 
     // UI
     implementation Dependencies.UI.material
     implementation Dependencies.UI.constraint_layout
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.2'
+
+    // DI
+    implementation Dependencies.DI.koin
+    implementation Dependencies.DI.koin_core
+    implementation Dependencies.DI.koin_view_model
+
+    // Data
+    implementation Dependencies.Data.retrofit
+    implementation Dependencies.Data.gson
+    implementation Dependencies.Data.ok_http
+
 }

@@ -19,11 +19,15 @@ object Versions {
     const val navigation = "2.3.1"
 
     // Data
+    const val retrofit = "2.7.1"
+    const val ok_http = "4.2.1"
 
     // UI
     const val material = "1.2.1"
+    const val picasso = "2.71828"
 
     // DI
+    const val koin = "2.2.0-rc-4"
 
     // Gradle
 
