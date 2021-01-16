@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.luisfelipe.extensions.load
 import com.luisfelipe.extensions.verticalRecyclerViewLayout
 import com.luisfelipe.movie.R
@@ -20,6 +21,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val viewModel by inject<DetailsViewModel>()
     private val similarMovieListAdapter by inject<SimilarMovieListAdapter>()
+    private val linearLayoutManager = verticalRecyclerViewLayout()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,8 +47,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private fun initRecyclerView() {
         binding.recyclerViewSimilarMovies.apply {
             setHasFixedSize(true)
-            layoutManager = verticalRecyclerViewLayout()
+            layoutManager = linearLayoutManager
             adapter = similarMovieListAdapter
+            onRecyclerViewScrollListener(this)
         }
     }
 
@@ -150,6 +153,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding.imgFavoriteIcon.visibility = View.VISIBLE
         binding.imgLikesIcon.visibility = View.VISIBLE
         binding.imgViewsIcon.visibility = View.VISIBLE
+    }
+
+    private fun onRecyclerViewScrollListener(recyclerView: RecyclerView) {
+        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                viewModel.onRecyclerViewScrolled(dy, linearLayoutManager)
+            }
+        })
     }
 
     override fun onDestroy() {

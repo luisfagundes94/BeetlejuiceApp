@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisfelipe.movie.domain.enums.ResultStatus
 import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
 import com.luisfelipe.movie.domain.usecase.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
@@ -36,6 +38,10 @@ class DetailsViewModel(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private var isSimilarMovieListLoading = false
+    private var pageNumber = 1
+    private val pageLimit = 10
+
     private companion object {
         const val BEETLEJUICE_MOVIE_ID = 4011
     }
@@ -47,9 +53,11 @@ class DetailsViewModel(
         _isLoading.postValue(false)
     }
 
-    fun getSimilarMovies() = viewModelScope.launch(Dispatchers.IO) {
-        val similarMoviesResultStatus = getSimilarMoviesFromApi(BEETLEJUICE_MOVIE_ID)
+    fun getSimilarMovies(page: Int = pageNumber) = viewModelScope.launch(Dispatchers.IO) {
+        isSimilarMovieListLoading = true
+        val similarMoviesResultStatus = getSimilarMoviesFromApi(BEETLEJUICE_MOVIE_ID, page)
         _similarMoviesResultStatus.postValue(similarMoviesResultStatus)
+        isSimilarMovieListLoading = false
     }
 
     fun getMovieGenres() = viewModelScope.launch(Dispatchers.IO) {
@@ -77,6 +85,23 @@ class DetailsViewModel(
             _isFavoriteMovie.postValue(true)
             setIsFavoriteMovieToCache(movieIdString, true)
         }
+    }
+
+    fun onRecyclerViewScrolled(dy: Int, layoutManager: LinearLayoutManager) {
+        if (dy > 0) {
+            val hasUserReachedTheEnd = hasUserReachedTheEnd(layoutManager)
+            if (isSimilarMovieListLoading.not() && hasUserReachedTheEnd && pageNumber < pageLimit) {
+                pageNumber++
+                getSimilarMovies(pageNumber)
+            }
+        }
+    }
+
+    private fun hasUserReachedTheEnd(layoutManager: LinearLayoutManager): Boolean {
+        val visibleItemCount = layoutManager.childCount
+        val totalItemCount = layoutManager.itemCount
+        val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
+        return visibleItemCount + pastVisibleItem >= totalItemCount
     }
 
 }
