@@ -7,12 +7,11 @@ import com.luisfelipe.movie.domain.enums.ResultStatus
 import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
-import com.luisfelipe.movie.domain.repository.Repository
+import com.luisfelipe.movie.domain.repository.MoviesRepository
 import kotlinx.coroutines.withTimeout
-import okhttp3.Response
 import java.io.IOException
 
-class RepositoryImpl(private val theMovieDbService: TheMovieDbService): Repository {
+class MoviesRepositoryImpl(private val theMovieDbService: TheMovieDbService): MoviesRepository {
 
     private companion object {
         private const val MIN_RESPONSE_CODE = 200

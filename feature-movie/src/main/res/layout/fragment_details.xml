@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -18,6 +17,16 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
+    <ImageView
+        android:id="@+id/shadow_effect"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:background="@drawable/shadow"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@+id/backdrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/horizontal_guideline"
         android:layout_width="wrap_content"
@@ -27,11 +36,11 @@
 
     <TextView
         android:id="@+id/title"
+        style="@style/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/defaultMargin"
         android:gravity="start"
-        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/img_favorite_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backdrop"
@@ -39,9 +48,10 @@
 
     <TextView
         android:id="@+id/likes"
+        style="@style/defaultText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="@dimen/tinyMargin"
         app:layout_constraintBottom_toBottomOf="@+id/img_likes_icon"
         app:layout_constraintStart_toEndOf="@+id/img_likes_icon"
         app:layout_constraintTop_toTopOf="@+id/img_likes_icon"
@@ -51,54 +61,59 @@
         android:id="@+id/img_likes_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/defaultMargin"
         android:contentDescription="@string/img_desc_likes_icon"
         app:layout_constraintStart_toStartOf="@+id/title"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:srcCompat="@drawable/ic_baseline_favorite_24" />
+        app:srcCompat="@drawable/ic_baseline_favorite_24"
+        app:tint="?attr/iconBackgroundColor" />
 
     <TextView
         android:id="@+id/views"
+        style="@style/defaultText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="@dimen/tinyMargin"
+        android:layout_marginEnd="@dimen/defaultMargin"
         android:gravity="start"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/img_views_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/img_views_icon"
+        app:layout_constraintTop_toTopOf="@+id/img_views_icon"
         tools:text="14k Views" />
 
     <ImageView
-        android:contentDescription="@string/img_desc_favorite_icon"
         android:id="@+id/img_favorite_icon"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/defaultMargin"
+        android:contentDescription="@string/img_desc_favorite_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/backdrop"
-        app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+        app:srcCompat="@drawable/ic_baseline_favorite_border_24"
+        app:tint="?attr/iconBackgroundColor" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_similar_movies"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="@dimen/defaultMargin"
+        android:layout_marginTop="@dimen/defaultMargin"
+        android:layout_marginEnd="@dimen/defaultMargin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_likes_icon" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/img_views_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/smallMargin"
+        android:contentDescription="@string/img_desc_view_icon"
         app:layout_constraintBottom_toBottomOf="@+id/img_likes_icon"
         app:layout_constraintStart_toEndOf="@+id/likes"
         app:layout_constraintTop_toTopOf="@+id/img_likes_icon"
-        app:srcCompat="@drawable/ic_baseline_visibility_24" />
+        app:srcCompat="@drawable/ic_baseline_visibility_24"
+        app:tint="?attr/iconBackgroundColor" />
 </androidx.constraintlayout.widget.ConstraintLayout>

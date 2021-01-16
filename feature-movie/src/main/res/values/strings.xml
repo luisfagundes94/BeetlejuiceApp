@@ -4,6 +4,7 @@
     <string name="img_desc_likes_icon">Ícone de likes</string>
     <string name="img_desc_favorite_icon">Ícone de coração para favoritar o filme</string>
     <string name="number_of_likes">%s Curtidas</string>
-    <string name="number_of_views">%.2f Visualizações</string>
+    <string name="number_of_views">%.3f Visualizações</string>
     <string name="img_desc_movie_poster">Movie Poster</string>
+    <string name="img_desc_view_icon">Ícone de Visualização</string>
 </resources>

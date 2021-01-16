@@ -12,7 +12,8 @@ class SimilarMovieTest {
         val fakeSimilarMovie = SimilarMovie(
             title = "Beetlejuice",
             releaseDate = "2020-09-10",
-            poster = "/////////////"
+            poster = "/////////////",
+            genreIds = listOf(1,2,3,4)
         )
 
         val expectedValue = "2020"

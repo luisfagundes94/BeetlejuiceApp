@@ -46,6 +46,7 @@ dependencies {
 
     // Module
     implementation project(':extensions')
+    implementation project(':resources')
 
     // Core
     implementation Dependencies.Core.kotlin_stdlib
@@ -67,6 +68,7 @@ dependencies {
     implementation Dependencies.Data.retrofit
     implementation Dependencies.Data.gson
     implementation Dependencies.Data.ok_http
+    implementation Dependencies.Data.data_store
 
     // Test
     testImplementation Dependencies.Test.junit

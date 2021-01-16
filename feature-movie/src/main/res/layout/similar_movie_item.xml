@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/poster"
-        android:layout_width="70dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="@dimen/poster_width"
+        android:layout_height="@dimen/poster_height"
+        android:layout_marginTop="@dimen/defaultMargin"
         android:contentDescription="@string/img_desc_movie_poster"
         android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="1:2"
@@ -20,7 +20,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/defaultMargin"
         android:gravity="start"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/poster"
@@ -29,19 +29,20 @@
         app:layout_constraintTop_toTopOf="@+id/poster">
 
         <TextView
+            style="@style/smallTitle"
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
             tools:text="Beetlejuice" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/smallMargin"
             android:orientation="horizontal">
 
             <TextView
+                style="@style/defaultText"
                 android:id="@+id/release_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,7 +52,7 @@
                 android:id="@+id/genres"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="@dimen/smallMargin"
                 android:layout_weight="1"
                 tools:text="Drama, Horror, Fantasy" />
         </LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- TEXT SIZES -->
+    <dimen name="titleSize">24sp</dimen>
+    <dimen name="smallTitleSize">18sp</dimen>
+    <dimen name="defaultTextSize">14sp</dimen>
+
+    <!-- POSTER DEFAULT SIZE -->
+    <dimen name="poster_height">100dp</dimen>
+    <dimen name="poster_width">70dp</dimen>
+
+    <!-- MARGINS -->
+    <dimen name="defaultMargin">16dp</dimen>
+    <dimen name="smallMargin">8dp</dimen>
+    <dimen name="tinyMargin">8dp</dimen>
+
+    <!-- STATIC ICON SIZE -->
+    <dimen name="defaultIconSize">24dp</dimen>
+</resources>
