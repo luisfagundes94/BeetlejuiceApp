@@ -1,6 +1,10 @@
 package com.luisfelipe.movie.di
 
+import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import com.luisfelipe.movie.data.local.cache.FavoritesCache
+import com.luisfelipe.movie.data.local.cache.FavoritesCache.Companion.SHARED_PREFERENCES_NAME
 import com.luisfelipe.movie.data.local.repository_impl.FavoritesRepositoryImpl
 import com.luisfelipe.movie.data.remote.repository_impl.MoviesRepositoryImpl
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
@@ -67,9 +71,13 @@ val movieModule = module {
     // Retrofit
     single { createTheMovieDbRetrofit(get<OkHttpClient>()) }
 
+    // OkHttp
     factory { createOkHttpClient() }
 
-    factory { FavoritesCache(androidApplication()) }
+    // Cache
+    factory { FavoritesCache(get<SharedPreferences>()) }
+
+    single { getSharedPreferences(androidApplication()) }
 }
 
 private fun createTheMovieDbRetrofit(okHttpClient: OkHttpClient) = Retrofit.Builder()
@@ -90,3 +98,6 @@ private fun createOkHttpClient(): OkHttpClient {
 
 private fun getTheMovieDbService(retrofit: Retrofit) =
     retrofit.create(TheMovieDbService::class.java)
+
+private fun getSharedPreferences(app: Application): SharedPreferences =
+app.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
