@@ -60,7 +60,7 @@ class DetailsViewModelTest {
             title = TITLE,
             releaseDate = "2020-09-10",
             poster = "//////////",
-            genreIds = listOf(1,2,3,4)
+            genreIds = listOf(1, 2, 3, 4)
         )
     )
 
@@ -97,7 +97,7 @@ class DetailsViewModelTest {
     @Test
     fun `should return a list of similar movies when getSimilarMovies is successful`() {
         // Arrange
-        coEvery { getSimilarMoviesFromApi(MOVIE_ID) } returns ResultStatus.Success(
+        coEvery { getSimilarMoviesFromApi(MOVIE_ID, pageNumber = 1) } returns ResultStatus.Success(
             fakeSimilarMovieList
         )
 
@@ -114,7 +114,9 @@ class DetailsViewModelTest {
     @Test
     fun `should return an error message when getSimilarMovies is unsuccessful`() {
         // Arrange
-        coEvery { getSimilarMoviesFromApi(MOVIE_ID) } returns ResultStatus.Error(ERROR_MESSAGE)
+        coEvery { getSimilarMoviesFromApi(MOVIE_ID, pageNumber = 1) } returns ResultStatus.Error(
+            ERROR_MESSAGE
+        )
 
         // Act
         coroutinesTestRule.testDispatcher.runBlockingTest {
@@ -127,7 +129,7 @@ class DetailsViewModelTest {
     }
 
     @Test
-    fun `should set isFavoriteMovie to true when default value is false`() {
+    fun `should update isFavoriteMovie to true when default value is false`() {
         // Arrange
         coEvery { getIsFavoriteMovieFromCache(MOVIE_ID.toString()) } returns false
         coEvery { setIsFavoriteMovieFromCache(MOVIE_ID.toString(), true) } just runs
@@ -143,7 +145,7 @@ class DetailsViewModelTest {
     }
 
     @Test
-    fun `should set isFavoriteMovie to false when default value is true`() {
+    fun `should update isFavoriteMovie to false when default value is true`() {
         // Arrange
         coEvery { getIsFavoriteMovieFromCache(MOVIE_ID.toString()) } returns true
         coEvery { setIsFavoriteMovieFromCache(MOVIE_ID.toString(), false) } just runs

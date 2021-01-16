@@ -13,8 +13,6 @@ class SimilarMovieListAdapter :
     private val similarMovieList = mutableListOf<SimilarMovie>()
 
     fun updateSimilarMovies(similarMovies: List<SimilarMovie>) {
-        if (this.similarMovieList.isNotEmpty()) this.similarMovieList.clear()
-
         this.similarMovieList.addAll(similarMovies)
         notifyDataSetChanged()
     }

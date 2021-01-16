@@ -32,13 +32,3 @@ fun <T> LiveData<T>.getOrAwaitValue(
     @Suppress("UNCHECKED_CAST")
     return data as T
 }
-
-fun <T> LiveData<T>.observeForTesting(block: () -> Unit) {
-    val observer = Observer<T> { }
-    try {
-        observeForever(observer)
-        block()
-    } finally {
-        removeObserver(observer)
-    }
-}

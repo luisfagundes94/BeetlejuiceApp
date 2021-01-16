@@ -33,10 +33,10 @@ class MoviesRepositoryImpl(private val theMovieDbService: TheMovieDbService): Mo
         }
     }
 
-    override suspend fun getSimilarMovies(movieId: Int): ResultStatus<List<SimilarMovie>> {
+    override suspend fun getSimilarMovies(movieId: Int, pageNumber: Int): ResultStatus<List<SimilarMovie>> {
         return withTimeout(REQUEST_TIMEOUT) {
             try {
-                val response = theMovieDbService.getSimilarMovies(movieId)
+                val response = theMovieDbService.getSimilarMovies(movieId, pageNumber = pageNumber)
                 if (response.code() in MIN_RESPONSE_CODE..MAX_RESPONSE_CODE) {
                     val similarMovies = response.body()?.let { MovieMapper.mapResponseToDomain(it.results) }
                     return@withTimeout ResultStatus.Success(similarMovies as List<SimilarMovie>)
