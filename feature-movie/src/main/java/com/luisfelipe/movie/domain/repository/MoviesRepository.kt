@@ -7,6 +7,6 @@ import com.luisfelipe.movie.domain.model.SimilarMovie
 
 interface MoviesRepository {
     suspend fun getMovieDetails(movieId: Int): ResultStatus<Movie>
-    suspend fun getSimilarMovies(movieId: Int): ResultStatus<List<SimilarMovie>>
+    suspend fun getSimilarMovies(movieId: Int, pageNumber: Int): ResultStatus<List<SimilarMovie>>
     suspend fun getMovieGenres(): ResultStatus<List<Genre>>
 }
