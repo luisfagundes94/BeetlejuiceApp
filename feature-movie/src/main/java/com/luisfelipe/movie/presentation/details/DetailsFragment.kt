@@ -51,32 +51,69 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun initViewModelObservers() {
         viewModel.apply {
-            movieDetailsResultStatus.observe(viewLifecycleOwner, { resultStatus ->
-                when (resultStatus) {
-                    is ResultStatus.Success -> setMovieInfo(resultStatus.data)
-                    is ResultStatus.Error -> {
-                    }
-                    else -> {
-                    }
+            observeMovieDetails()
+            observeSimilarMovies()
+            observeMovieGenres()
+            observeIsFavoriteMovie()
+        }
+    }
+
+    private fun DetailsViewModel.observeMovieDetails() {
+        movieDetailsResultStatus.observe(viewLifecycleOwner, { resultStatus ->
+            when (resultStatus) {
+                is ResultStatus.Success -> {
+                    val movie = resultStatus.data
+                    updateInitialFavoriteIconState(movie.id)
+                    onFavoriteIconClick(movie)
+                    setMovieInfo(movie)
                 }
-            })
-            similarMoviesResultStatus.observe(viewLifecycleOwner, { resultStatus ->
-                when (resultStatus) {
-                    is ResultStatus.Success -> similarMovieListAdapter.updateSimilarMovies(
-                        resultStatus.data
-                    )
-                    is ResultStatus.Error -> {
-                    }
-                    else -> {
-                    }
+                is ResultStatus.Error -> {
                 }
-            })
-            movieGenresResultStatus.observe(viewLifecycleOwner, { resultStatus ->
-                when (resultStatus) {
-                    is ResultStatus.Success -> getGenreNamesFromIds(resultStatus.data, listOf(28, 12, 16))
-                    else -> {}
+                else -> {
                 }
-            })
+            }
+        })
+    }
+
+    private fun DetailsViewModel.observeSimilarMovies() {
+        similarMoviesResultStatus.observe(viewLifecycleOwner, { resultStatus ->
+            when (resultStatus) {
+                is ResultStatus.Success -> similarMovieListAdapter.updateSimilarMovies(
+                    resultStatus.data
+                )
+                is ResultStatus.Error -> {
+                }
+                else -> {
+                }
+            }
+        })
+    }
+
+    private fun DetailsViewModel.observeMovieGenres() {
+        movieGenresResultStatus.observe(viewLifecycleOwner, { resultStatus ->
+            when (resultStatus) {
+                is ResultStatus.Success -> getGenreNamesFromIds(
+                    resultStatus.data,
+                    listOf(28, 12, 16)
+                )
+                else -> {
+                }
+            }
+        })
+    }
+
+    private fun DetailsViewModel.observeIsFavoriteMovie() {
+        isFavoriteMovie.observe(viewLifecycleOwner, {
+            when (it) {
+                true -> checkFavoriteIcon()
+                else -> uncheckFavoriteIcon()
+            }
+        })
+    }
+
+    private fun onFavoriteIconClick(movie: Movie) {
+        binding.imgFavoriteIcon.setOnClickListener {
+            viewModel.updateFavoriteIconState(movie.id)
         }
     }
 
@@ -85,6 +122,24 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding.title.text = movie.title
         binding.likes.text = getString(R.string.number_of_likes, movie.getFormattedLikes())
         binding.views.text = getString(R.string.number_of_views, movie.views)
+    }
+
+    private fun checkFavoriteIcon() =
+        binding.imgFavoriteIcon.setBackgroundResource(R.drawable.ic_baseline_favorite_24)
+
+    private fun uncheckFavoriteIcon() =
+        binding.imgFavoriteIcon.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24)
+
+    private fun hideIcons() {
+        binding.imgFavoriteIcon.visibility = View.INVISIBLE
+        binding.imgLikesIcon.visibility = View.INVISIBLE
+        binding.imgViewsIcon.visibility = View.INVISIBLE
+    }
+
+    private fun showIcons() {
+        binding.imgFavoriteIcon.visibility = View.VISIBLE
+        binding.imgLikesIcon.visibility = View.VISIBLE
+        binding.imgViewsIcon.visibility = View.VISIBLE
     }
 
     override fun onDestroy() {

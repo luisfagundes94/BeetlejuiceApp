@@ -57,16 +57,21 @@ class DetailsViewModel(
         return filteredGenres.map { it.name }
     }
 
-    fun checkFavoriteIconState(movieId: Int) = viewModelScope.launch {
-        val isAlreadyFavorite = getIsFavoriteMovieFromCache(movieId.toString())
+    fun updateInitialFavoriteIconState(movieId: Int) = viewModelScope.launch {
+        val isFavorite = getIsFavoriteMovieFromCache(movieId.toString())
+        if (isFavorite) _isFavoriteMovie.postValue(true)
+    }
+
+    fun updateFavoriteIconState(movieId: Int) = viewModelScope.launch {
+        val movieIdString = movieId.toString()
+        val isAlreadyFavorite = getIsFavoriteMovieFromCache(movieIdString)
         if (isAlreadyFavorite) {
             _isFavoriteMovie.postValue(false)
-            setIsFavoriteMovieToCache(movieId.toString(), false)
+            setIsFavoriteMovieToCache(movieIdString, false)
         } else {
             _isFavoriteMovie.postValue(true)
-            setIsFavoriteMovieToCache(movieId.toString(), true)
+            setIsFavoriteMovieToCache(movieIdString, true)
         }
-
     }
 
 }
