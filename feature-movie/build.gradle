@@ -68,7 +68,7 @@ dependencies {
     implementation Dependencies.Data.retrofit
     implementation Dependencies.Data.gson
     implementation Dependencies.Data.ok_http
-    implementation Dependencies.Data.data_store
+    implementation Dependencies.Data.preferences_ktx
 
     // Test
     testImplementation Dependencies.Test.junit

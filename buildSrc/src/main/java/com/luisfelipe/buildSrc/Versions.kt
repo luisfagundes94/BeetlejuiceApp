@@ -21,7 +21,7 @@ object Versions {
     // Data
     const val retrofit = "2.7.1"
     const val ok_http = "4.2.1"
-    const val data_store = "1.0.0-alpha06"
+    const val preferences_ktx = "1.1.0"
 
     // UI
     const val material = "1.2.1"
