@@ -5,8 +5,7 @@ import com.luisfelipe.extensions.getOrAwaitValue
 import com.luisfelipe.movie.domain.enums.ResultStatus
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
-import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
-import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
+import com.luisfelipe.movie.domain.usecase.*
 import com.luisfelipe.utils.CoroutineRule
 import com.luisfelipe.utils.FakeDataSource.BACKDROP
 import com.luisfelipe.utils.FakeDataSource.ERROR_MESSAGE
@@ -14,9 +13,7 @@ import com.luisfelipe.utils.FakeDataSource.MOVIE_ID
 import com.luisfelipe.utils.FakeDataSource.LIKES
 import com.luisfelipe.utils.FakeDataSource.TITLE
 import com.luisfelipe.utils.FakeDataSource.VIEWS
-import io.mockk.coEvery
-import io.mockk.mockk
-import io.mockk.spyk
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Rule
@@ -36,11 +33,17 @@ class DetailsViewModelTest {
 
     private val getMovieDetailsFromApi: GetMovieDetailsFromApi = mockk()
     private val getSimilarMoviesFromApi: GetSimilarMoviesFromApi = mockk()
+    private val getMovieGenresFromApi: GetMovieGenresFromApi = mockk()
+    private val getIsFavoriteMovieFromCache: GetIsFavoriteMovieFromCache = mockk()
+    private val setIsFavoriteMovieFromCache: SetIsFavoriteMovieToCache = mockk()
 
     private val viewModel = spyk(
         DetailsViewModel(
             getMovieDetailsFromApi,
-            getSimilarMoviesFromApi
+            getSimilarMoviesFromApi,
+            getMovieGenresFromApi,
+            getIsFavoriteMovieFromCache,
+            setIsFavoriteMovieFromCache,
         )
     )
 
@@ -56,7 +59,8 @@ class DetailsViewModelTest {
         SimilarMovie(
             title = TITLE,
             releaseDate = "2020-09-10",
-            poster = "//////////"
+            poster = "//////////",
+            genreIds = listOf(1,2,3,4)
         )
     )
 
@@ -120,6 +124,38 @@ class DetailsViewModelTest {
         // Assert
         val expectedValue = viewModel.similarMoviesResultStatus.getOrAwaitValue()
         assert(expectedValue == ResultStatus.Error(ERROR_MESSAGE))
+    }
+
+    @Test
+    fun `should set isFavoriteMovie to true when default value is false`() {
+        // Arrange
+        coEvery { getIsFavoriteMovieFromCache(MOVIE_ID.toString()) } returns false
+        coEvery { setIsFavoriteMovieFromCache(MOVIE_ID.toString(), true) } just runs
+
+        // Act
+        coroutinesTestRule.testDispatcher.runBlockingTest {
+            viewModel.updateFavoriteIconState(MOVIE_ID)
+        }
+
+        // Assert
+        val expectedValue = viewModel.isFavoriteMovie.getOrAwaitValue()
+        assert(expectedValue)
+    }
+
+    @Test
+    fun `should set isFavoriteMovie to false when default value is true`() {
+        // Arrange
+        coEvery { getIsFavoriteMovieFromCache(MOVIE_ID.toString()) } returns true
+        coEvery { setIsFavoriteMovieFromCache(MOVIE_ID.toString(), false) } just runs
+
+        // Act
+        coroutinesTestRule.testDispatcher.runBlockingTest {
+            viewModel.updateFavoriteIconState(MOVIE_ID)
+        }
+
+        // Assert
+        val expectedValue = viewModel.isFavoriteMovie.getOrAwaitValue()
+        assert(!expectedValue)
     }
 
 }
