@@ -21,7 +21,7 @@
         android:id="@+id/shadow_effect"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        android:background="@drawable/shadow"
+        android:background="?attr/backgroundTransparency"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/backdrop"
         app:layout_constraintEnd_toEndOf="parent"

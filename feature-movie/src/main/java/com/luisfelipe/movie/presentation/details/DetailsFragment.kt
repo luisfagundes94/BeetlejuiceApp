@@ -84,10 +84,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     onFavoriteIconClick(movie)
                     setMovieInfo(movie)
                 }
-                is ResultStatus.Error -> {
-                }
-                else -> {
-                }
+                is ResultStatus.Error -> { }
             }
         })
     }
@@ -98,10 +95,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 is ResultStatus.Success -> similarMovieListAdapter.updateSimilarMovies(
                     resultStatus.data
                 )
-                is ResultStatus.Error -> {
-                }
-                else -> {
-                }
+                is ResultStatus.Error -> {}
             }
         })
     }
@@ -113,8 +107,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     resultStatus.data,
                     listOf(28, 12, 16)
                 )
-                else -> {
-                }
+                is ResultStatus.Error -> {}
             }
         })
     }
