@@ -129,7 +129,7 @@ class DetailsViewModelTest {
     }
 
     @Test
-    fun `should set isFavoriteMovie to true when default value is false`() {
+    fun `should update isFavoriteMovie to true when default value is false`() {
         // Arrange
         coEvery { getIsFavoriteMovieFromCache(MOVIE_ID.toString()) } returns false
         coEvery { setIsFavoriteMovieFromCache(MOVIE_ID.toString(), true) } just runs
@@ -145,7 +145,7 @@ class DetailsViewModelTest {
     }
 
     @Test
-    fun `should set isFavoriteMovie to false when default value is true`() {
+    fun `should update isFavoriteMovie to false when default value is true`() {
         // Arrange
         coEvery { getIsFavoriteMovieFromCache(MOVIE_ID.toString()) } returns true
         coEvery { setIsFavoriteMovieFromCache(MOVIE_ID.toString(), false) } just runs
