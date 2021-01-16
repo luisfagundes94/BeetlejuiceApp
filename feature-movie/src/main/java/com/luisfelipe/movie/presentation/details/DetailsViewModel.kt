@@ -33,13 +33,18 @@ class DetailsViewModel(
     private val _isFavoriteMovie = MutableLiveData<Boolean>()
     val isFavoriteMovie: LiveData<Boolean> = _isFavoriteMovie
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     private companion object {
         const val BEETLEJUICE_MOVIE_ID = 4011
     }
 
     fun getMovieDetails() = viewModelScope.launch(Dispatchers.IO) {
+        _isLoading.postValue(true)
         val movieDetailsResultStatus = getMovieDetailsFromApi(BEETLEJUICE_MOVIE_ID)
         _movieDetailsResultStatus.postValue(movieDetailsResultStatus)
+        _isLoading.postValue(false)
     }
 
     fun getSimilarMovies() = viewModelScope.launch(Dispatchers.IO) {
