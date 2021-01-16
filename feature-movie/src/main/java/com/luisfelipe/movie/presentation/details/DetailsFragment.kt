@@ -35,6 +35,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         initRecyclerView()
         initViewModelObservers()
+        hideStaticIcons()
 
         viewModel.getMovieDetails()
         viewModel.getSimilarMovies()
@@ -51,11 +52,27 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun initViewModelObservers() {
         viewModel.apply {
+            observeIsLoading()
             observeMovieDetails()
             observeSimilarMovies()
             observeMovieGenres()
             observeIsFavoriteMovie()
         }
+    }
+
+    private fun DetailsViewModel.observeIsLoading() {
+        isLoading.observe(viewLifecycleOwner, {
+            when (it) {
+                true -> {
+                    hideStaticIcons()
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                false -> {
+                    showStaticIcons()
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        })
     }
 
     private fun DetailsViewModel.observeMovieDetails() {
@@ -67,10 +84,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     onFavoriteIconClick(movie)
                     setMovieInfo(movie)
                 }
-                is ResultStatus.Error -> {
-                }
-                else -> {
-                }
+                is ResultStatus.Error -> { }
             }
         })
     }
@@ -81,10 +95,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 is ResultStatus.Success -> similarMovieListAdapter.updateSimilarMovies(
                     resultStatus.data
                 )
-                is ResultStatus.Error -> {
-                }
-                else -> {
-                }
+                is ResultStatus.Error -> {}
             }
         })
     }
@@ -96,8 +107,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     resultStatus.data,
                     listOf(28, 12, 16)
                 )
-                else -> {
-                }
+                is ResultStatus.Error -> {}
             }
         })
     }
@@ -125,18 +135,18 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     }
 
     private fun checkFavoriteIcon() =
-        binding.imgFavoriteIcon.setBackgroundResource(R.drawable.ic_baseline_favorite_24)
+        binding.imgFavoriteIcon.setImageResource(R.drawable.ic_baseline_favorite_24)
 
     private fun uncheckFavoriteIcon() =
-        binding.imgFavoriteIcon.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24)
+        binding.imgFavoriteIcon.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
-    private fun hideIcons() {
+    private fun hideStaticIcons() {
         binding.imgFavoriteIcon.visibility = View.INVISIBLE
         binding.imgLikesIcon.visibility = View.INVISIBLE
         binding.imgViewsIcon.visibility = View.INVISIBLE
     }
 
-    private fun showIcons() {
+    private fun showStaticIcons() {
         binding.imgFavoriteIcon.visibility = View.VISIBLE
         binding.imgLikesIcon.visibility = View.VISIBLE
         binding.imgViewsIcon.visibility = View.VISIBLE

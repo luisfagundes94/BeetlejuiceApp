@@ -2,4 +2,5 @@
     <attr name="textColorPrimary" format="color" />
     <attr name="textColorSecundary" format="color" />
     <attr name="iconBackgroundColor" format="color" />
+    <attr name="backgroundTransparency" format="integer" />
 </resources>
