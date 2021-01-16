@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="title" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:textSize">@dimen/titleSize</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="smallTitle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">?attr/textColorPrimary</item>
+        <item name="android:textSize">@dimen/smallTitleSize</item>
+    </style>
+
+    <style name="defaultText" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">?attr/textColorSecundary</item>
+        <item name="android:textSize">@dimen/defaultTextSize</item>
+    </style>
+</resources>
