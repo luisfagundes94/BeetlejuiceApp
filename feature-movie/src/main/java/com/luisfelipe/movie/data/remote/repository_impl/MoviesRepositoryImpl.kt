@@ -21,7 +21,11 @@ class MoviesRepositoryImpl(
         private const val MIN_RESPONSE_CODE = 200
         private const val MAX_RESPONSE_CODE = 299
         const val REQUEST_TIMEOUT = 5000L
+        private const val FIRST_PAGE = 1
+        private const val PAGE_LIMIT = 10
     }
+
+    private var page = FIRST_PAGE
 
     override suspend fun getMovieDetails(movieId: Int): ResultStatus<Movie> {
         return withTimeout(REQUEST_TIMEOUT) {
@@ -40,17 +44,17 @@ class MoviesRepositoryImpl(
     }
 
     override suspend fun getSimilarMovies(
-        movieId: Int,
-        pageNumber: Int
+        movieId: Int
     ): ResultStatus<List<SimilarMovie>> {
         return withTimeout(REQUEST_TIMEOUT) {
             try {
-                val response = theMovieDbService.getSimilarMovies(movieId, pageNumber = pageNumber)
+                val response = theMovieDbService.getSimilarMovies(movieId, pageNumber = page)
 
                 if (response.code() in MIN_RESPONSE_CODE..MAX_RESPONSE_CODE) {
                     val similarMovies = response.body()?.let {
                         MovieMapper.mapResponseToDomain(it.results, getGenres())
                     }
+                    incrementPage()
                     return@withTimeout ResultStatus.Success(similarMovies as List<SimilarMovie>)
                 } else return@withTimeout ResultStatus.Error(response.message())
 
@@ -69,6 +73,10 @@ class MoviesRepositoryImpl(
             genresDao.insertGenres(GenreMapper.mapDomainToData(genreList))
             genreList
         } else GenreMapper.mapDataToDomain(genreDataList)
+    }
+
+    private fun incrementPage() {
+        if (page < PAGE_LIMIT) page++
     }
 
 

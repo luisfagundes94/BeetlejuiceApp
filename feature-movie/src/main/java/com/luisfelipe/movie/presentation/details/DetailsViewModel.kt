@@ -48,18 +48,12 @@ class DetailsViewModel(
         _isLoading.postValue(false)
     }
 
-    fun getSimilarMovies(page: Int = pageNumber) = viewModelScope.launch(Dispatchers.IO) {
+    fun getSimilarMovies() = viewModelScope.launch(Dispatchers.IO) {
         isSimilarMovieListLoading = true
-        val similarMoviesResultStatus = getSimilarMoviesFromApi(BEETLEJUICE_MOVIE_ID, page)
+        val similarMoviesResultStatus = getSimilarMoviesFromApi(BEETLEJUICE_MOVIE_ID)
         _similarMoviesResultStatus.postValue(similarMoviesResultStatus)
         isSimilarMovieListLoading = false
     }
-
-
-//    private fun getGenreNamesFromIds(genres: List<Genre>, genreIds: List<Int>): List<String> {
-//        val filteredGenres = genres.filter { genre -> genreIds.contains(genre.id) }
-//        return filteredGenres.map { it.name }
-//    }
 
     fun updateInitialFavoriteIconState(movieId: Int) = viewModelScope.launch {
         val isFavorite = getIsFavoriteMovieFromCache(movieId.toString())
@@ -79,9 +73,8 @@ class DetailsViewModel(
     }
 
     fun requestNextPage() {
-        if (isSimilarMovieListLoading.not() && pageNumber < pageLimit) {
-            pageNumber++
-            getSimilarMovies(pageNumber)
+        if (isSimilarMovieListLoading.not()) {
+            getSimilarMovies()
         }
     }
 }
