@@ -25,7 +25,7 @@ class MoviesRepositoryImpl(
         private const val PAGE_LIMIT = 10
     }
 
-    private var page = FIRST_PAGE
+    private var pageNumber = FIRST_PAGE
 
     override suspend fun getMovieDetails(movieId: Int): ResultStatus<Movie> {
         return withTimeout(REQUEST_TIMEOUT) {
@@ -48,7 +48,7 @@ class MoviesRepositoryImpl(
     ): ResultStatus<List<SimilarMovie>> {
         return withTimeout(REQUEST_TIMEOUT) {
             try {
-                val response = theMovieDbService.getSimilarMovies(movieId, pageNumber = page)
+                val response = theMovieDbService.getSimilarMovies(movieId, pageNumber = pageNumber)
 
                 if (response.code() in MIN_RESPONSE_CODE..MAX_RESPONSE_CODE) {
                     val similarMovies = response.body()?.let {
@@ -76,7 +76,7 @@ class MoviesRepositoryImpl(
     }
 
     private fun incrementPage() {
-        if (page < PAGE_LIMIT) page++
+        if (pageNumber < PAGE_LIMIT) pageNumber++
     }
 
 

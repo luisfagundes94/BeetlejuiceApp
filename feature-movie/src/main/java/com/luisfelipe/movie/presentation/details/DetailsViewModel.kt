@@ -34,8 +34,6 @@ class DetailsViewModel(
     val isLoading: LiveData<Boolean> = _isLoading
 
     private var isSimilarMovieListLoading = false
-    private var pageNumber = 1
-    private val pageLimit = 10
 
     private companion object {
         const val BEETLEJUICE_MOVIE_ID = 4011
@@ -73,8 +71,6 @@ class DetailsViewModel(
     }
 
     fun requestNextPage() {
-        if (isSimilarMovieListLoading.not()) {
-            getSimilarMovies()
-        }
+        if (isSimilarMovieListLoading.not()) getSimilarMovies()
     }
 }
