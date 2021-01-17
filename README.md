@@ -29,6 +29,10 @@ Aplicativo para android onde é apresentado informações sobre o maravilhoso fi
 - Sincronize o projeto para baixar todas as dependências.
 - Inicie a aplicação em um celular ou emulador.
 
+# Automação
+- ktlintCheck: Verifica se o código está de acordo com o padrão utilizado pelo ktlin. Use o comando `./gradlew ktlintCheck` para realizar a verificação.
+- ktlintFormat: Formata automaticamente o código para ficar de acordo com o padrão utilizado pelo ktlint. use o comando `./gradlew ktlintFormat` para realizar a formatação.
+
 # Arquitetura
 O projeto busca o desacoplamento de componentes, fácil navegação de pacotes em sua estrutura e uma alta escalabilidade. É utilizado a abordagem de single-activity, onde o sistema contém apenas uma activity que será o ponto de entrada do aplicativo e as demais telas que serão fragmentos filhos do mesmo.
 
