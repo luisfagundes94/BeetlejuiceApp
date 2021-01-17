@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.luisfelipe.extensions.load
 import com.luisfelipe.movie.databinding.SimilarMovieItemBinding
+import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.SimilarMovie
 
 class SimilarMovieListAdapter :
@@ -35,7 +36,7 @@ class SimilarMovieListAdapter :
             itemBinding.title.text = similarMovie.title
             itemBinding.releaseDate.text = similarMovie.getFormattedYear()
             itemBinding.poster.load(similarMovie.poster)
-            //itemBinding.genres.text = similarMovie.genres.toString()
+            itemBinding.genres.text = similarMovie.getFormattedGenreNames()
         }
     }
 }
