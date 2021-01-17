@@ -13,7 +13,6 @@ import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
 import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
 import com.luisfelipe.movie.domain.usecase.SetIsFavoriteMovieToCache
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
@@ -21,7 +20,7 @@ class DetailsViewModel(
     private val getSimilarMoviesFromApi: GetSimilarMoviesFromApi,
     private val getIsFavoriteMovieFromCache: GetIsFavoriteMovieFromCache,
     private val setIsFavoriteMovieToCache: SetIsFavoriteMovieToCache,
-    val coroutineDispatcher: CoroutineDispatcher
+    private val coroutineDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _movieDetailsResultStatus = MutableLiveData<ResultStatus<Movie>>()

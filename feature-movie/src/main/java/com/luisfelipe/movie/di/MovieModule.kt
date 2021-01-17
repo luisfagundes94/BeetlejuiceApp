@@ -100,7 +100,7 @@ val movieModule = module {
         get<MovieDatabase>().genreDao()
     }
 
-    // Dipatcher
+    // Dispatcher
     factory {
         Dispatchers.IO
     }
