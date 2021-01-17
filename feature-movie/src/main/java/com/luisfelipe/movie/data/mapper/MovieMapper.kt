@@ -37,7 +37,7 @@ class MovieMapper {
             return similarMovies
         }
 
-        private fun getGenreNamesFromIds(genres: List<Genre>, genreIds: List<Int>): List<String> {
+        internal fun getGenreNamesFromIds(genres: List<Genre>, genreIds: List<Int>): List<String> {
             val filteredGenres = genres.filter { genre -> genreIds.contains(genre.id) }
             return filteredGenres.map { it.name }
         }

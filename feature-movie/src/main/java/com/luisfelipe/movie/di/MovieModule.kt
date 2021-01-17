@@ -20,6 +20,8 @@ import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
 import com.luisfelipe.movie.domain.usecase.SetIsFavoriteMovieToCache
 import com.luisfelipe.movie.presentation.details.DetailsViewModel
 import com.luisfelipe.movie.presentation.details.SimilarMovieListAdapter
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -40,7 +42,8 @@ val movieModule = module {
             get<GetMovieDetailsFromApi>(),
             get<GetSimilarMoviesFromApi>(),
             get<GetIsFavoriteMovieFromCache>(),
-            get<SetIsFavoriteMovieToCache>()
+            get<SetIsFavoriteMovieToCache>(),
+            get<CoroutineDispatcher>(),
         )
     }
 
@@ -95,6 +98,11 @@ val movieModule = module {
     // DAO
     single {
         get<MovieDatabase>().genreDao()
+    }
+
+    // Dispatcher
+    factory {
+        Dispatchers.IO
     }
 }
 
