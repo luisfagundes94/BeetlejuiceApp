@@ -14,9 +14,13 @@ import com.luisfelipe.movie.data.remote.repository_impl.MoviesRepositoryImpl
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
 import com.luisfelipe.movie.domain.repository.FavoritesRepository
 import com.luisfelipe.movie.domain.repository.MoviesRepository
-import com.luisfelipe.movie.domain.usecase.*
+import com.luisfelipe.movie.domain.usecase.GetIsFavoriteMovieFromCache
+import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
+import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
+import com.luisfelipe.movie.domain.usecase.SetIsFavoriteMovieToCache
 import com.luisfelipe.movie.presentation.details.DetailsViewModel
 import com.luisfelipe.movie.presentation.details.SimilarMovieListAdapter
+import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidApplication
@@ -24,7 +28,6 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 const val BASE_URL = "https://api.themoviedb.org/3/"
 
@@ -37,7 +40,7 @@ val movieModule = module {
             get<GetMovieDetailsFromApi>(),
             get<GetSimilarMoviesFromApi>(),
             get<GetIsFavoriteMovieFromCache>(),
-            get<SetIsFavoriteMovieToCache>(),
+            get<SetIsFavoriteMovieToCache>()
         )
     }
 
@@ -52,7 +55,6 @@ val movieModule = module {
     factory { GetIsFavoriteMovieFromCache(get()) }
 
     factory { SetIsFavoriteMovieToCache(get()) }
-
 
     // Repositories
     factory {

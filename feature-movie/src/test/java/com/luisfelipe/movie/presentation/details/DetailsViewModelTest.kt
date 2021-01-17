@@ -5,15 +5,22 @@ import com.luisfelipe.extensions.getOrAwaitValue
 import com.luisfelipe.movie.domain.enums.ResultStatus
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
-import com.luisfelipe.movie.domain.usecase.*
+import com.luisfelipe.movie.domain.usecase.GetIsFavoriteMovieFromCache
+import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
+import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
+import com.luisfelipe.movie.domain.usecase.SetIsFavoriteMovieToCache
 import com.luisfelipe.utils.CoroutineRule
 import com.luisfelipe.utils.FakeDataSource.BACKDROP
 import com.luisfelipe.utils.FakeDataSource.ERROR_MESSAGE
-import com.luisfelipe.utils.FakeDataSource.MOVIE_ID
 import com.luisfelipe.utils.FakeDataSource.LIKES
+import com.luisfelipe.utils.FakeDataSource.MOVIE_ID
 import com.luisfelipe.utils.FakeDataSource.TITLE
 import com.luisfelipe.utils.FakeDataSource.VIEWS
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.just
+import io.mockk.mockk
+import io.mockk.runs
+import io.mockk.spyk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Rule
@@ -33,7 +40,6 @@ class DetailsViewModelTest {
 
     private val getMovieDetailsFromApi: GetMovieDetailsFromApi = mockk()
     private val getSimilarMoviesFromApi: GetSimilarMoviesFromApi = mockk()
-    private val getMovieGenresFromApi: GetMovieGenresFromApi = mockk()
     private val getIsFavoriteMovieFromCache: GetIsFavoriteMovieFromCache = mockk()
     private val setIsFavoriteMovieFromCache: SetIsFavoriteMovieToCache = mockk()
 
@@ -41,9 +47,8 @@ class DetailsViewModelTest {
         DetailsViewModel(
             getMovieDetailsFromApi,
             getSimilarMoviesFromApi,
-            getMovieGenresFromApi,
             getIsFavoriteMovieFromCache,
-            setIsFavoriteMovieFromCache,
+            setIsFavoriteMovieFromCache
         )
     )
 
@@ -60,7 +65,7 @@ class DetailsViewModelTest {
             title = TITLE,
             releaseDate = "2020-09-10",
             poster = "//////////",
-            genreIds = listOf(1, 2, 3, 4)
+            genreNames = listOf("Comédia", "Terror")
         )
     )
 
@@ -97,7 +102,7 @@ class DetailsViewModelTest {
     @Test
     fun `should return a list of similar movies when getSimilarMovies is successful`() {
         // Arrange
-        coEvery { getSimilarMoviesFromApi(MOVIE_ID, pageNumber = 1) } returns ResultStatus.Success(
+        coEvery { getSimilarMoviesFromApi(MOVIE_ID) } returns ResultStatus.Success(
             fakeSimilarMovieList
         )
 
@@ -114,7 +119,7 @@ class DetailsViewModelTest {
     @Test
     fun `should return an error message when getSimilarMovies is unsuccessful`() {
         // Arrange
-        coEvery { getSimilarMoviesFromApi(MOVIE_ID, pageNumber = 1) } returns ResultStatus.Error(
+        coEvery { getSimilarMoviesFromApi(MOVIE_ID) } returns ResultStatus.Error(
             ERROR_MESSAGE
         )
 
@@ -159,5 +164,4 @@ class DetailsViewModelTest {
         val expectedValue = viewModel.isFavoriteMovie.getOrAwaitValue()
         assert(!expectedValue)
     }
-
 }

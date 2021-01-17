@@ -13,5 +13,4 @@ class FavoritesCache(private val sharedPreferences: SharedPreferences) {
 
     fun setIsFavoriteMovie(movieId: String, isFavorite: Boolean) =
         sharedPreferences.edit().putBoolean(movieId, isFavorite).apply()
-
 }

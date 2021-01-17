@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisfelipe.movie.domain.enums.ResultStatus
-import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
-import com.luisfelipe.movie.domain.usecase.*
+import com.luisfelipe.movie.domain.usecase.GetIsFavoriteMovieFromCache
+import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
+import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
+import com.luisfelipe.movie.domain.usecase.SetIsFavoriteMovieToCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,7 +18,7 @@ class DetailsViewModel(
     private val getMovieDetailsFromApi: GetMovieDetailsFromApi,
     private val getSimilarMoviesFromApi: GetSimilarMoviesFromApi,
     private val getIsFavoriteMovieFromCache: GetIsFavoriteMovieFromCache,
-    private val setIsFavoriteMovieToCache: SetIsFavoriteMovieToCache,
+    private val setIsFavoriteMovieToCache: SetIsFavoriteMovieToCache
 ) : ViewModel() {
 
     private val _movieDetailsResultStatus = MutableLiveData<ResultStatus<Movie>>()

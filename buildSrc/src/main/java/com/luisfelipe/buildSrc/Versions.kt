@@ -10,6 +10,8 @@ object Versions {
     const val target_sdk = 30
     const val version_code = 1
     const val version_name = "1.0"
+    const val ktlint = "0.36.0"
+    const val gradle = "4.1.1"
 
     // Core
     const val kotlin = "1.4.21"
@@ -33,11 +35,10 @@ object Versions {
 
     // Gradle
 
-
     // Test
     const val junit = "4.13.1"
     const val coroutines = "1.3.6"
-    const val mockk =  "1.10.0"
+    const val mockk = "1.10.0"
     const val arch_core = "2.1.0"
 
     // Lifecycle

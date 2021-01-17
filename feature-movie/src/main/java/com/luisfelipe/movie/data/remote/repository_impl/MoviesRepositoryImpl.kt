@@ -9,8 +9,8 @@ import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
 import com.luisfelipe.movie.domain.repository.MoviesRepository
-import kotlinx.coroutines.withTimeout
 import java.io.IOException
+import kotlinx.coroutines.withTimeout
 
 class MoviesRepositoryImpl(
     private val theMovieDbService: TheMovieDbService,
@@ -36,7 +36,6 @@ class MoviesRepositoryImpl(
                     val movie = response.body()?.let { MovieMapper.mapResponseToDomain(it) }
                     return@withTimeout ResultStatus.Success(movie as Movie)
                 } else return@withTimeout ResultStatus.Error(response.message())
-
             } catch (exception: IOException) {
                 return@withTimeout ResultStatus.Error(exception.message.toString())
             }
@@ -57,7 +56,6 @@ class MoviesRepositoryImpl(
                     incrementPage()
                     return@withTimeout ResultStatus.Success(similarMovies as List<SimilarMovie>)
                 } else return@withTimeout ResultStatus.Error(response.message())
-
             } catch (exception: IOException) {
                 return@withTimeout ResultStatus.Error(exception.message.toString())
             }
@@ -78,6 +76,4 @@ class MoviesRepositoryImpl(
     private fun incrementPage() {
         if (pageNumber < PAGE_LIMIT) pageNumber++
     }
-
-
 }
