@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.luisfelipe.extensions.load
 import com.luisfelipe.extensions.verticalRecyclerViewLayout
 import com.luisfelipe.movie.R
@@ -20,6 +21,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val viewModel by inject<DetailsViewModel>()
     private val similarMovieListAdapter by inject<SimilarMovieListAdapter>()
+    private val linearLayoutManager = verticalRecyclerViewLayout()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +37,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         initRecyclerView()
         initViewModelObservers()
+        hideStaticIcons()
 
         viewModel.getMovieDetails()
         viewModel.getSimilarMovies()
@@ -44,18 +47,35 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private fun initRecyclerView() {
         binding.recyclerViewSimilarMovies.apply {
             setHasFixedSize(true)
-            layoutManager = verticalRecyclerViewLayout()
+            layoutManager = linearLayoutManager
             adapter = similarMovieListAdapter
+            onRecyclerViewScrollListener(this)
         }
     }
 
     private fun initViewModelObservers() {
         viewModel.apply {
+            observeIsLoading()
             observeMovieDetails()
             observeSimilarMovies()
             observeMovieGenres()
             observeIsFavoriteMovie()
         }
+    }
+
+    private fun DetailsViewModel.observeIsLoading() {
+        isLoading.observe(viewLifecycleOwner, {
+            when (it) {
+                true -> {
+                    hideStaticIcons()
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                false -> {
+                    showStaticIcons()
+                    binding.progressBar.visibility = View.GONE
+                }
+            }
+        })
     }
 
     private fun DetailsViewModel.observeMovieDetails() {
@@ -67,10 +87,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     onFavoriteIconClick(movie)
                     setMovieInfo(movie)
                 }
-                is ResultStatus.Error -> {
-                }
-                else -> {
-                }
+                is ResultStatus.Error -> { }
             }
         })
     }
@@ -81,10 +98,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 is ResultStatus.Success -> similarMovieListAdapter.updateSimilarMovies(
                     resultStatus.data
                 )
-                is ResultStatus.Error -> {
-                }
-                else -> {
-                }
+                is ResultStatus.Error -> {}
             }
         })
     }
@@ -96,8 +110,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     resultStatus.data,
                     listOf(28, 12, 16)
                 )
-                else -> {
-                }
+                is ResultStatus.Error -> {}
             }
         })
     }
@@ -125,21 +138,29 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     }
 
     private fun checkFavoriteIcon() =
-        binding.imgFavoriteIcon.setBackgroundResource(R.drawable.ic_baseline_favorite_24)
+        binding.imgFavoriteIcon.setImageResource(R.drawable.ic_baseline_favorite_24)
 
     private fun uncheckFavoriteIcon() =
-        binding.imgFavoriteIcon.setBackgroundResource(R.drawable.ic_baseline_favorite_border_24)
+        binding.imgFavoriteIcon.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
-    private fun hideIcons() {
+    private fun hideStaticIcons() {
         binding.imgFavoriteIcon.visibility = View.INVISIBLE
         binding.imgLikesIcon.visibility = View.INVISIBLE
         binding.imgViewsIcon.visibility = View.INVISIBLE
     }
 
-    private fun showIcons() {
+    private fun showStaticIcons() {
         binding.imgFavoriteIcon.visibility = View.VISIBLE
         binding.imgLikesIcon.visibility = View.VISIBLE
         binding.imgViewsIcon.visibility = View.VISIBLE
+    }
+
+    private fun onRecyclerViewScrollListener(recyclerView: RecyclerView) {
+        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                viewModel.onRecyclerViewScrolled(dy, linearLayoutManager)
+            }
+        })
     }
 
     override fun onDestroy() {
