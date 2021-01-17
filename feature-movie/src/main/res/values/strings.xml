@@ -8,4 +8,6 @@
     <string name="img_desc_movie_poster">Movie Poster</string>
     <string name="img_desc_view_icon">Ícone de Visualização</string>
     <string name="img_desc_shadow_effect">Efeito degrade</string>
+    <string name="warning_failed_to_fetch_similar_movies">Erro ao buscar filmes semelhantes :(</string>
+    <string name="warning_failed_to_fetch_movie_details">Erro ao buscar detalhes de filme :(</string>
 </resources>

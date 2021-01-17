@@ -1,4 +1,4 @@
-package com.luisfelipe.movie.data.local.repository_impl
+package com.luisfelipe.movie.data
 
 import com.luisfelipe.movie.data.local.cache.FavoritesCache
 import com.luisfelipe.movie.domain.repository.FavoritesRepository

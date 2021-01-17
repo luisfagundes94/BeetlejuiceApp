@@ -9,8 +9,8 @@ import com.luisfelipe.movie.data.local.cache.FavoritesCache.Companion.SHARED_PRE
 import com.luisfelipe.movie.data.local.dao.GenreDao
 import com.luisfelipe.movie.data.local.database.MovieDatabase
 import com.luisfelipe.movie.data.local.database.MovieDatabase.Companion.DATABASE_NAME
-import com.luisfelipe.movie.data.local.repository_impl.FavoritesRepositoryImpl
-import com.luisfelipe.movie.data.remote.repository_impl.MoviesRepositoryImpl
+import com.luisfelipe.movie.data.FavoritesRepositoryImpl
+import com.luisfelipe.movie.data.MoviesRepositoryImpl
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
 import com.luisfelipe.movie.domain.repository.FavoritesRepository
 import com.luisfelipe.movie.domain.repository.MoviesRepository
@@ -20,6 +20,8 @@ import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
 import com.luisfelipe.movie.domain.usecase.SetIsFavoriteMovieToCache
 import com.luisfelipe.movie.presentation.details.DetailsViewModel
 import com.luisfelipe.movie.presentation.details.SimilarMovieListAdapter
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import java.util.concurrent.TimeUnit
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -40,7 +42,8 @@ val movieModule = module {
             get<GetMovieDetailsFromApi>(),
             get<GetSimilarMoviesFromApi>(),
             get<GetIsFavoriteMovieFromCache>(),
-            get<SetIsFavoriteMovieToCache>()
+            get<SetIsFavoriteMovieToCache>(),
+            get<CoroutineDispatcher>(),
         )
     }
 
@@ -95,6 +98,11 @@ val movieModule = module {
     // DAO
     single {
         get<MovieDatabase>().genreDao()
+    }
+
+    // Dispatcher
+    factory {
+        Dispatchers.IO
     }
 }
 

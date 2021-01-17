@@ -1,4 +1,4 @@
-package com.luisfelipe.movie.data.remote.repository_impl
+package com.luisfelipe.movie.data
 
 import com.luisfelipe.movie.data.local.dao.GenreDao
 import com.luisfelipe.movie.data.mapper.GenreMapper

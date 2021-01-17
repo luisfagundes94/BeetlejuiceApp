@@ -1,5 +1,6 @@
 package com.luisfelipe.movie.presentation.details
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,14 +12,15 @@ import com.luisfelipe.movie.domain.usecase.GetIsFavoriteMovieFromCache
 import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
 import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
 import com.luisfelipe.movie.domain.usecase.SetIsFavoriteMovieToCache
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
     private val getMovieDetailsFromApi: GetMovieDetailsFromApi,
     private val getSimilarMoviesFromApi: GetSimilarMoviesFromApi,
     private val getIsFavoriteMovieFromCache: GetIsFavoriteMovieFromCache,
-    private val setIsFavoriteMovieToCache: SetIsFavoriteMovieToCache
+    private val setIsFavoriteMovieToCache: SetIsFavoriteMovieToCache,
+    private val coroutineDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _movieDetailsResultStatus = MutableLiveData<ResultStatus<Movie>>()
@@ -34,20 +36,21 @@ class DetailsViewModel(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private var isSimilarMovieListLoading = false
+    @VisibleForTesting
+    internal var isSimilarMovieListLoading = false
 
     private companion object {
         const val BEETLEJUICE_MOVIE_ID = 4011
     }
 
-    fun getMovieDetails() = viewModelScope.launch(Dispatchers.IO) {
+    fun getMovieDetails() = viewModelScope.launch(coroutineDispatcher) {
         _isLoading.postValue(true)
         val movieDetailsResultStatus = getMovieDetailsFromApi(BEETLEJUICE_MOVIE_ID)
         _movieDetailsResultStatus.postValue(movieDetailsResultStatus)
         _isLoading.postValue(false)
     }
 
-    fun getSimilarMovies() = viewModelScope.launch(Dispatchers.IO) {
+    fun getSimilarMovies() = viewModelScope.launch(coroutineDispatcher) {
         isSimilarMovieListLoading = true
         val similarMoviesResultStatus = getSimilarMoviesFromApi(BEETLEJUICE_MOVIE_ID)
         _similarMoviesResultStatus.postValue(similarMoviesResultStatus)
@@ -71,7 +74,7 @@ class DetailsViewModel(
         }
     }
 
-    fun requestNextPage() {
+    internal fun requestNextPage() {
         if (isSimilarMovieListLoading.not()) getSimilarMovies()
     }
 }

@@ -16,13 +16,8 @@ import com.luisfelipe.utils.FakeDataSource.LIKES
 import com.luisfelipe.utils.FakeDataSource.MOVIE_ID
 import com.luisfelipe.utils.FakeDataSource.TITLE
 import com.luisfelipe.utils.FakeDataSource.VIEWS
-import io.mockk.coEvery
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.runs
-import io.mockk.spyk
+import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,7 +43,8 @@ class DetailsViewModelTest {
             getMovieDetailsFromApi,
             getSimilarMoviesFromApi,
             getIsFavoriteMovieFromCache,
-            setIsFavoriteMovieFromCache
+            setIsFavoriteMovieFromCache,
+            coroutinesTestRule.testDispatcher
         )
     )
 
@@ -75,9 +71,7 @@ class DetailsViewModelTest {
         coEvery { getMovieDetailsFromApi(MOVIE_ID) } returns ResultStatus.Success(fakeMovie)
 
         // Act
-        coroutinesTestRule.testDispatcher.runBlockingTest {
-            viewModel.getMovieDetails()
-        }
+        viewModel.getMovieDetails()
 
         // Assert
         val expectedValue = viewModel.movieDetailsResultStatus.getOrAwaitValue()
@@ -90,9 +84,7 @@ class DetailsViewModelTest {
         coEvery { getMovieDetailsFromApi(MOVIE_ID) } returns ResultStatus.Error(ERROR_MESSAGE)
 
         // Act
-        coroutinesTestRule.testDispatcher.runBlockingTest {
-            viewModel.getMovieDetails()
-        }
+        viewModel.getMovieDetails()
 
         // Assert
         val expectedValue = viewModel.movieDetailsResultStatus.getOrAwaitValue()
@@ -107,9 +99,7 @@ class DetailsViewModelTest {
         )
 
         // Act
-        coroutinesTestRule.testDispatcher.runBlockingTest {
-            viewModel.getSimilarMovies()
-        }
+        viewModel.getSimilarMovies()
 
         // Assert
         val expectedValue = viewModel.similarMoviesResultStatus.getOrAwaitValue()
@@ -124,9 +114,7 @@ class DetailsViewModelTest {
         )
 
         // Act
-        coroutinesTestRule.testDispatcher.runBlockingTest {
-            viewModel.getSimilarMovies()
-        }
+        viewModel.getSimilarMovies()
 
         // Assert
         val expectedValue = viewModel.similarMoviesResultStatus.getOrAwaitValue()
@@ -140,9 +128,7 @@ class DetailsViewModelTest {
         coEvery { setIsFavoriteMovieFromCache(MOVIE_ID.toString(), true) } just runs
 
         // Act
-        coroutinesTestRule.testDispatcher.runBlockingTest {
-            viewModel.updateFavoriteIconState(MOVIE_ID)
-        }
+        viewModel.updateFavoriteIconState(MOVIE_ID)
 
         // Assert
         val expectedValue = viewModel.isFavoriteMovie.getOrAwaitValue()
@@ -156,12 +142,36 @@ class DetailsViewModelTest {
         coEvery { setIsFavoriteMovieFromCache(MOVIE_ID.toString(), false) } just runs
 
         // Act
-        coroutinesTestRule.testDispatcher.runBlockingTest {
-            viewModel.updateFavoriteIconState(MOVIE_ID)
-        }
+        viewModel.updateFavoriteIconState(MOVIE_ID)
 
         // Assert
         val expectedValue = viewModel.isFavoriteMovie.getOrAwaitValue()
         assert(!expectedValue)
+    }
+
+    @Test
+    fun `should not request next page when similar movies is loading`() {
+        // Arrange
+        viewModel.isSimilarMovieListLoading = true
+        // Act
+        viewModel.requestNextPage()
+
+        // Assert
+        verify(exactly = 0) { viewModel.getSimilarMovies() }
+    }
+
+    @Test
+    fun `should request next page when similar movies is not loading`() {
+        // Arrange
+        coEvery { getSimilarMoviesFromApi(MOVIE_ID) } returns ResultStatus.Success(
+            fakeSimilarMovieList
+        )
+        viewModel.isSimilarMovieListLoading = false
+
+        //Act
+        viewModel.requestNextPage()
+
+        // Assert
+        verify(exactly = 1) { viewModel.getSimilarMovies() }
     }
 }
