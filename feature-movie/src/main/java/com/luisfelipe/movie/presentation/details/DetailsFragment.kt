@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.luisfelipe.extensions.load
+import com.luisfelipe.extensions.setupScroll
 import com.luisfelipe.extensions.verticalRecyclerViewLayout
 import com.luisfelipe.movie.R
 import com.luisfelipe.movie.databinding.FragmentDetailsBinding
@@ -21,7 +21,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val viewModel by inject<DetailsViewModel>()
     private val similarMovieListAdapter by inject<SimilarMovieListAdapter>()
-    private val linearLayoutManager = verticalRecyclerViewLayout()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,16 +40,15 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         viewModel.getMovieDetails()
         viewModel.getSimilarMovies()
-        viewModel.getMovieGenres()
     }
 
-    private fun initRecyclerView() {
-        binding.recyclerViewSimilarMovies.apply {
-            setHasFixedSize(true)
-            layoutManager = linearLayoutManager
-            adapter = similarMovieListAdapter
-            onRecyclerViewScrollListener(this)
-        }
+    private fun initRecyclerView() = with(binding.recyclerViewSimilarMovies) {
+        val layoutManager = verticalRecyclerViewLayout()
+
+        setHasFixedSize(true)
+        this.layoutManager = layoutManager
+        this.adapter = similarMovieListAdapter
+        setupScroll(layoutManager) { viewModel.requestNextPage() }
     }
 
     private fun initViewModelObservers() {
@@ -58,7 +56,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             observeIsLoading()
             observeMovieDetails()
             observeSimilarMovies()
-            observeMovieGenres()
             observeIsFavoriteMovie()
         }
     }
@@ -68,11 +65,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             when (it) {
                 true -> {
                     hideStaticIcons()
-                    binding.progressBar.visibility = View.VISIBLE
+                    showProgressBar()
                 }
                 false -> {
                     showStaticIcons()
-                    binding.progressBar.visibility = View.GONE
+                    hideProgressBar()
                 }
             }
         })
@@ -87,7 +84,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     onFavoriteIconClick(movie)
                     setMovieInfo(movie)
                 }
-                is ResultStatus.Error -> { }
+                is ResultStatus.Error -> {
+                }
             }
         })
     }
@@ -98,19 +96,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 is ResultStatus.Success -> similarMovieListAdapter.updateSimilarMovies(
                     resultStatus.data
                 )
-                is ResultStatus.Error -> {}
-            }
-        })
-    }
-
-    private fun DetailsViewModel.observeMovieGenres() {
-        movieGenresResultStatus.observe(viewLifecycleOwner, { resultStatus ->
-            when (resultStatus) {
-                is ResultStatus.Success -> getGenreNamesFromIds(
-                    resultStatus.data,
-                    listOf(28, 12, 16)
-                )
-                is ResultStatus.Error -> {}
+                is ResultStatus.Error -> {
+                }
             }
         })
     }
@@ -143,6 +130,10 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private fun uncheckFavoriteIcon() =
         binding.imgFavoriteIcon.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
+    private fun showProgressBar() { binding.progressBar.visibility = View.VISIBLE }
+
+    private fun hideProgressBar() { binding.progressBar.visibility = View.INVISIBLE }
+
     private fun hideStaticIcons() {
         binding.imgFavoriteIcon.visibility = View.INVISIBLE
         binding.imgLikesIcon.visibility = View.INVISIBLE
@@ -153,14 +144,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding.imgFavoriteIcon.visibility = View.VISIBLE
         binding.imgLikesIcon.visibility = View.VISIBLE
         binding.imgViewsIcon.visibility = View.VISIBLE
-    }
-
-    private fun onRecyclerViewScrollListener(recyclerView: RecyclerView) {
-        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                viewModel.onRecyclerViewScrolled(dy, linearLayoutManager)
-            }
-        })
     }
 
     override fun onDestroy() {
