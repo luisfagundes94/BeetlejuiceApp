@@ -21,7 +21,7 @@ interface TheMovieDbService {
     suspend fun getSimilarMovies(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = BuildConfig.THE_MOVIE_DB_API_KEY,
-        @Query("page") pageNumber: Int,
+        @Query("page") pageNumber: Int
     ): Response<SimilarMoviesBodyResponse>
 
     @GET("genre/movie/list")

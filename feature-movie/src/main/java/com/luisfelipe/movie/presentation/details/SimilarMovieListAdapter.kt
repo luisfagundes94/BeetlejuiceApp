@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.luisfelipe.extensions.load
 import com.luisfelipe.movie.databinding.SimilarMovieItemBinding
-import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.SimilarMovie
 
 class SimilarMovieListAdapter :

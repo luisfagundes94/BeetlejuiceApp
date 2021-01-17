@@ -1,7 +1,5 @@
 package com.luisfelipe.utils
 
-import com.luisfelipe.movie.domain.model.Movie
-
 object FakeDataSource {
     const val MOVIE_ID = 4011
     const val TITLE = "Beetlejuice"
