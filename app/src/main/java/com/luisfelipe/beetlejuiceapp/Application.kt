@@ -5,7 +5,7 @@ import com.luisfelipe.movie.di.movieModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
-class Application: Application() {
+class Application : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -23,5 +23,4 @@ class Application: Application() {
             )
         }
     }
-
 }

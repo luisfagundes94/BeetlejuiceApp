@@ -81,5 +81,4 @@ internal class MovieTest {
 
         assert(fakeMovie.getFormattedLikes() == expectedValue)
     }
-
 }

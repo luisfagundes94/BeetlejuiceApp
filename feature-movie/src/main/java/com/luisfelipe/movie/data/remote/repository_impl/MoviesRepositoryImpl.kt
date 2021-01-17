@@ -9,8 +9,8 @@ import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
 import com.luisfelipe.movie.domain.repository.MoviesRepository
-import kotlinx.coroutines.withTimeout
 import java.io.IOException
+import kotlinx.coroutines.withTimeout
 
 class MoviesRepositoryImpl(
     private val theMovieDbService: TheMovieDbService,
@@ -21,7 +21,11 @@ class MoviesRepositoryImpl(
         private const val MIN_RESPONSE_CODE = 200
         private const val MAX_RESPONSE_CODE = 299
         const val REQUEST_TIMEOUT = 5000L
+        private const val FIRST_PAGE = 1
+        private const val PAGE_LIMIT = 10
     }
+
+    private var pageNumber = FIRST_PAGE
 
     override suspend fun getMovieDetails(movieId: Int): ResultStatus<Movie> {
         return withTimeout(REQUEST_TIMEOUT) {
@@ -32,7 +36,6 @@ class MoviesRepositoryImpl(
                     val movie = response.body()?.let { MovieMapper.mapResponseToDomain(it) }
                     return@withTimeout ResultStatus.Success(movie as Movie)
                 } else return@withTimeout ResultStatus.Error(response.message())
-
             } catch (exception: IOException) {
                 return@withTimeout ResultStatus.Error(exception.message.toString())
             }
@@ -40,8 +43,7 @@ class MoviesRepositoryImpl(
     }
 
     override suspend fun getSimilarMovies(
-        movieId: Int,
-        pageNumber: Int
+        movieId: Int
     ): ResultStatus<List<SimilarMovie>> {
         return withTimeout(REQUEST_TIMEOUT) {
             try {
@@ -51,9 +53,9 @@ class MoviesRepositoryImpl(
                     val similarMovies = response.body()?.let {
                         MovieMapper.mapResponseToDomain(it.results, getGenres())
                     }
+                    incrementPage()
                     return@withTimeout ResultStatus.Success(similarMovies as List<SimilarMovie>)
                 } else return@withTimeout ResultStatus.Error(response.message())
-
             } catch (exception: IOException) {
                 return@withTimeout ResultStatus.Error(exception.message.toString())
             }
@@ -71,5 +73,7 @@ class MoviesRepositoryImpl(
         } else GenreMapper.mapDataToDomain(genreDataList)
     }
 
-
+    private fun incrementPage() {
+        if (pageNumber < PAGE_LIMIT) pageNumber++
+    }
 }

@@ -13,7 +13,7 @@ class SimilarMovieTest {
             title = "Beetlejuice",
             releaseDate = "2020-09-10",
             poster = "/////////////",
-            genreIds = listOf(1,2,3,4)
+            genreIds = listOf(1, 2, 3, 4)
         )
 
         val expectedValue = "2020"

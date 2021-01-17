@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.luisfelipe.movie.domain.enums.ResultStatus
-import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
-import com.luisfelipe.movie.domain.usecase.*
+import com.luisfelipe.movie.domain.usecase.GetIsFavoriteMovieFromCache
+import com.luisfelipe.movie.domain.usecase.GetMovieDetailsFromApi
+import com.luisfelipe.movie.domain.usecase.GetSimilarMoviesFromApi
+import com.luisfelipe.movie.domain.usecase.SetIsFavoriteMovieToCache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -17,7 +18,7 @@ class DetailsViewModel(
     private val getMovieDetailsFromApi: GetMovieDetailsFromApi,
     private val getSimilarMoviesFromApi: GetSimilarMoviesFromApi,
     private val getIsFavoriteMovieFromCache: GetIsFavoriteMovieFromCache,
-    private val setIsFavoriteMovieToCache: SetIsFavoriteMovieToCache,
+    private val setIsFavoriteMovieToCache: SetIsFavoriteMovieToCache
 ) : ViewModel() {
 
     private val _movieDetailsResultStatus = MutableLiveData<ResultStatus<Movie>>()
@@ -34,8 +35,6 @@ class DetailsViewModel(
     val isLoading: LiveData<Boolean> = _isLoading
 
     private var isSimilarMovieListLoading = false
-    private var pageNumber = 1
-    private val pageLimit = 10
 
     private companion object {
         const val BEETLEJUICE_MOVIE_ID = 4011
@@ -48,18 +47,12 @@ class DetailsViewModel(
         _isLoading.postValue(false)
     }
 
-    fun getSimilarMovies(page: Int = pageNumber) = viewModelScope.launch(Dispatchers.IO) {
+    fun getSimilarMovies() = viewModelScope.launch(Dispatchers.IO) {
         isSimilarMovieListLoading = true
-        val similarMoviesResultStatus = getSimilarMoviesFromApi(BEETLEJUICE_MOVIE_ID, page)
+        val similarMoviesResultStatus = getSimilarMoviesFromApi(BEETLEJUICE_MOVIE_ID)
         _similarMoviesResultStatus.postValue(similarMoviesResultStatus)
         isSimilarMovieListLoading = false
     }
-
-
-//    private fun getGenreNamesFromIds(genres: List<Genre>, genreIds: List<Int>): List<String> {
-//        val filteredGenres = genres.filter { genre -> genreIds.contains(genre.id) }
-//        return filteredGenres.map { it.name }
-//    }
 
     fun updateInitialFavoriteIconState(movieId: Int) = viewModelScope.launch {
         val isFavorite = getIsFavoriteMovieFromCache(movieId.toString())
@@ -79,9 +72,6 @@ class DetailsViewModel(
     }
 
     fun requestNextPage() {
-        if (isSimilarMovieListLoading.not() && pageNumber < pageLimit) {
-            pageNumber++
-            getSimilarMovies(pageNumber)
-        }
+        if (isSimilarMovieListLoading.not()) getSimilarMovies()
     }
 }
