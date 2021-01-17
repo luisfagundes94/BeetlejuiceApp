@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.luisfelipe.extensions.load
 import com.luisfelipe.extensions.setupScroll
+import com.luisfelipe.extensions.toast
 import com.luisfelipe.extensions.verticalRecyclerViewLayout
 import com.luisfelipe.movie.R
 import com.luisfelipe.movie.databinding.FragmentDetailsBinding
@@ -85,6 +86,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     setMovieInfo(movie)
                 }
                 is ResultStatus.Error -> {
+                    toast(getString(R.string.warning_failed_to_fetch_movie_details))
                 }
             }
         })
@@ -97,6 +99,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     resultStatus.data
                 )
                 is ResultStatus.Error -> {
+                    toast(getString(R.string.warning_failed_to_fetch_similar_movies))
                 }
             }
         })
@@ -130,9 +133,13 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private fun uncheckFavoriteIcon() =
         binding.imgFavoriteIcon.setImageResource(R.drawable.ic_baseline_favorite_border_24)
 
-    private fun showProgressBar() { binding.progressBar.visibility = View.VISIBLE }
+    private fun showProgressBar() {
+        binding.progressBar.visibility = View.VISIBLE
+    }
 
-    private fun hideProgressBar() { binding.progressBar.visibility = View.INVISIBLE }
+    private fun hideProgressBar() {
+        binding.progressBar.visibility = View.INVISIBLE
+    }
 
     private fun hideStaticIcons() {
         binding.imgFavoriteIcon.visibility = View.INVISIBLE
