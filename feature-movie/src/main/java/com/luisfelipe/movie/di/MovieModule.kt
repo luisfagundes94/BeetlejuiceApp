@@ -3,8 +3,12 @@ package com.luisfelipe.movie.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.room.Room
 import com.luisfelipe.movie.data.local.cache.FavoritesCache
 import com.luisfelipe.movie.data.local.cache.FavoritesCache.Companion.SHARED_PREFERENCES_NAME
+import com.luisfelipe.movie.data.local.dao.GenreDao
+import com.luisfelipe.movie.data.local.database.MovieDatabase
+import com.luisfelipe.movie.data.local.database.MovieDatabase.Companion.DATABASE_NAME
 import com.luisfelipe.movie.data.local.repository_impl.FavoritesRepositoryImpl
 import com.luisfelipe.movie.data.remote.repository_impl.MoviesRepositoryImpl
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
@@ -32,9 +36,8 @@ val movieModule = module {
         DetailsViewModel(
             get<GetMovieDetailsFromApi>(),
             get<GetSimilarMoviesFromApi>(),
-            get<GetMovieGenresFromApi>(),
             get<GetIsFavoriteMovieFromCache>(),
-            get<SetIsFavoriteMovieToCache>()
+            get<SetIsFavoriteMovieToCache>(),
         )
     }
 
@@ -46,16 +49,16 @@ val movieModule = module {
 
     factory { GetSimilarMoviesFromApi(get()) }
 
-    factory { GetMovieGenresFromApi(get()) }
-
     factory { GetIsFavoriteMovieFromCache(get()) }
 
     factory { SetIsFavoriteMovieToCache(get()) }
 
+
     // Repositories
     factory {
         MoviesRepositoryImpl(
-            get<TheMovieDbService>()
+            get<TheMovieDbService>(),
+            get<GenreDao>()
         ) as MoviesRepository
     }
 
@@ -78,6 +81,19 @@ val movieModule = module {
     factory { FavoritesCache(get<SharedPreferences>()) }
 
     single { getSharedPreferences(androidApplication()) }
+
+    // Database
+    single {
+        Room.databaseBuilder(androidApplication(), MovieDatabase::class.java, DATABASE_NAME)
+            .fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
+            .build()
+    }
+
+    // DAO
+    single {
+        get<MovieDatabase>().genreDao()
+    }
 }
 
 private fun createTheMovieDbRetrofit(okHttpClient: OkHttpClient) = Retrofit.Builder()

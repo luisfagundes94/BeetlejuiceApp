@@ -22,6 +22,7 @@ object Versions {
     const val retrofit = "2.7.1"
     const val ok_http = "4.2.1"
     const val preferences_ktx = "1.1.0"
+    const val room = "2.2.6"
 
     // UI
     const val material = "1.2.1"

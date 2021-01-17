@@ -15,6 +15,9 @@ object Dependencies {
         const val gson = "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
         const val ok_http = "com.squareup.okhttp3:logging-interceptor:${Versions.ok_http}"
         const val preferences_ktx = "androidx.preference:preference-ktx:${Versions.preferences_ktx}"
+        const val room_runtime = "androidx.room:room-runtime:${Versions.room}"
+        const val room_ktx = "androidx.room:room-ktx:${Versions.room}"
+        const val room_compiler = "androidx.room:room-compiler:${Versions.room}"
     }
 
     object UI {
