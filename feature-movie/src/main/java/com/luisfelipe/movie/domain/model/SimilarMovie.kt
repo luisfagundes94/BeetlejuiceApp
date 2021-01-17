@@ -4,7 +4,7 @@ data class SimilarMovie(
     val title: String,
     val releaseDate: String?,
     val poster: String,
-    val genreIds: List<Int>
+    val genreNames: List<String>
 ) {
 
     private companion object {
@@ -13,5 +13,9 @@ data class SimilarMovie(
 
     fun getFormattedYear(): String {
         return this.releaseDate?.take(FIRST_NUMBERS_OF_YEAR) ?: ""
+    }
+
+    fun getFormattedGenreNames(): String {
+        return this.genreNames.joinToString(", ")
     }
 }

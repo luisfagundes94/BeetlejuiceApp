@@ -11,15 +11,13 @@ import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
 import com.luisfelipe.movie.domain.usecase.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class DetailsViewModel(
     private val getMovieDetailsFromApi: GetMovieDetailsFromApi,
     private val getSimilarMoviesFromApi: GetSimilarMoviesFromApi,
-    private val getMovieGenresFromApi: GetMovieGenresFromApi,
     private val getIsFavoriteMovieFromCache: GetIsFavoriteMovieFromCache,
-    private val setIsFavoriteMovieToCache: SetIsFavoriteMovieToCache
+    private val setIsFavoriteMovieToCache: SetIsFavoriteMovieToCache,
 ) : ViewModel() {
 
     private val _movieDetailsResultStatus = MutableLiveData<ResultStatus<Movie>>()
@@ -28,9 +26,6 @@ class DetailsViewModel(
     private val _similarMoviesResultStatus =
         MutableLiveData<ResultStatus<List<SimilarMovie>>>()
     val similarMoviesResultStatus = _similarMoviesResultStatus
-
-    private val _movieGenresResultStatus = MutableLiveData<ResultStatus<List<Genre>>>()
-    val movieGenresResultStatus: LiveData<ResultStatus<List<Genre>>> = _movieGenresResultStatus
 
     private val _isFavoriteMovie = MutableLiveData<Boolean>()
     val isFavoriteMovie: LiveData<Boolean> = _isFavoriteMovie
@@ -60,15 +55,11 @@ class DetailsViewModel(
         isSimilarMovieListLoading = false
     }
 
-    fun getMovieGenres() = viewModelScope.launch(Dispatchers.IO) {
-        val movieGenresResultStatus = getMovieGenresFromApi()
-        _movieGenresResultStatus.postValue(movieGenresResultStatus)
-    }
 
-    fun getGenreNamesFromIds(genres: List<Genre>, genreIds: List<Int>): List<String> {
-        val filteredGenres = genres.filter { genre -> genreIds.contains(genre.id) }
-        return filteredGenres.map { it.name }
-    }
+//    private fun getGenreNamesFromIds(genres: List<Genre>, genreIds: List<Int>): List<String> {
+//        val filteredGenres = genres.filter { genre -> genreIds.contains(genre.id) }
+//        return filteredGenres.map { it.name }
+//    }
 
     fun updateInitialFavoriteIconState(movieId: Int) = viewModelScope.launch {
         val isFavorite = getIsFavoriteMovieFromCache(movieId.toString())
@@ -87,21 +78,10 @@ class DetailsViewModel(
         }
     }
 
-    fun onRecyclerViewScrolled(dy: Int, layoutManager: LinearLayoutManager) {
-        if (dy > 0) {
-            val hasUserReachedTheEnd = hasUserReachedTheEnd(layoutManager)
-            if (isSimilarMovieListLoading.not() && hasUserReachedTheEnd && pageNumber < pageLimit) {
-                pageNumber++
-                getSimilarMovies(pageNumber)
-            }
+    fun requestNextPage() {
+        if (isSimilarMovieListLoading.not() && pageNumber < pageLimit) {
+            pageNumber++
+            getSimilarMovies(pageNumber)
         }
     }
-
-    private fun hasUserReachedTheEnd(layoutManager: LinearLayoutManager): Boolean {
-        val visibleItemCount = layoutManager.childCount
-        val totalItemCount = layoutManager.itemCount
-        val pastVisibleItem = layoutManager.findFirstVisibleItemPosition()
-        return visibleItemCount + pastVisibleItem >= totalItemCount
-    }
-
 }
