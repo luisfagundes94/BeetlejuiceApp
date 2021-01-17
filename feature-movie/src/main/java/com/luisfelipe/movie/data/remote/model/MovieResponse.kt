@@ -1,9 +1,11 @@
 package com.luisfelipe.movie.data.remote.model
 
+import com.google.gson.annotations.SerializedName
+
 data class MovieResponse(
     val id: Int,
     val title: String,
-    val vote_count: Int,
     val popularity: Double,
-    val backdrop_path: String
+    @SerializedName("vote_count") val voteCount: Int,
+    @SerializedName("backdrop_path") val backdropPath: String
 )
