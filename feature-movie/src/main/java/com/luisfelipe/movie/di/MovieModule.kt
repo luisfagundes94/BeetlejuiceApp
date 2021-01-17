@@ -9,8 +9,8 @@ import com.luisfelipe.movie.data.local.cache.FavoritesCache.Companion.SHARED_PRE
 import com.luisfelipe.movie.data.local.dao.GenreDao
 import com.luisfelipe.movie.data.local.database.MovieDatabase
 import com.luisfelipe.movie.data.local.database.MovieDatabase.Companion.DATABASE_NAME
-import com.luisfelipe.movie.data.local.repository_impl.FavoritesRepositoryImpl
-import com.luisfelipe.movie.data.remote.repository_impl.MoviesRepositoryImpl
+import com.luisfelipe.movie.data.FavoritesRepositoryImpl
+import com.luisfelipe.movie.data.MoviesRepositoryImpl
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
 import com.luisfelipe.movie.domain.repository.FavoritesRepository
 import com.luisfelipe.movie.domain.repository.MoviesRepository
