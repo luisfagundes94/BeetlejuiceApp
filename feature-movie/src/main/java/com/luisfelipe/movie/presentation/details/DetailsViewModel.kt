@@ -65,13 +65,13 @@ class DetailsViewModel(
     fun updateFavoriteIconState(movieId: Int) = viewModelScope.launch {
         val movieIdString = movieId.toString()
         val isAlreadyFavorite = getIsFavoriteMovieFromCache(movieIdString)
-        if (isAlreadyFavorite) {
-            _isFavoriteMovie.postValue(false)
-            setIsFavoriteMovieToCache(movieIdString, false)
-        } else {
-            _isFavoriteMovie.postValue(true)
-            setIsFavoriteMovieToCache(movieIdString, true)
-        }
+        if (isAlreadyFavorite) updateFavoriteMovie(movieIdString, false)
+        else updateFavoriteMovie(movieIdString, true)
+    }
+
+    private suspend fun updateFavoriteMovie(movieIdString: String, favorite: Boolean) {
+        _isFavoriteMovie.postValue(favorite)
+        setIsFavoriteMovieToCache(movieIdString, favorite)
     }
 
     internal fun requestNextPage() {
