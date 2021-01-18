@@ -17,9 +17,7 @@ class Application : Application() {
         startKoin {
             androidContext(this@Application)
             modules(
-                listOf(
-                    movieModule
-                )
+                listOf(movieModule)
             )
         }
     }

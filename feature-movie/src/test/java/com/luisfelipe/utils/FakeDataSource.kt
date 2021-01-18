@@ -7,4 +7,7 @@ object FakeDataSource {
     const val LIKES = 30000
     const val BACKDROP = "///////////"
     const val ERROR_MESSAGE = "ERROO"
+    const val RELEASE_DATE = "2020-09-10"
+    const val POSTER = "//////////"
+    val GENRE_NAMES = listOf("Comédia", "Terror")
 }

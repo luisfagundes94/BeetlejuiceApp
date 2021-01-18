@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.luisfelipe.core.result.ResultStatus
 import com.luisfelipe.extensions.load
 import com.luisfelipe.extensions.setupScroll
 import com.luisfelipe.extensions.toast
 import com.luisfelipe.extensions.verticalRecyclerViewLayout
 import com.luisfelipe.movie.R
 import com.luisfelipe.movie.databinding.FragmentDetailsBinding
-import com.luisfelipe.movie.domain.enums.ResultStatus
 import com.luisfelipe.movie.domain.model.Movie
 import org.koin.android.ext.android.inject
 
