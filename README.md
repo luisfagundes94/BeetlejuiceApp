@@ -23,6 +23,7 @@ Aplicativo para android onde é apresentado informações sobre o maravilhoso fi
 - [Retrofit](https://square.github.io/retrofit/) - _requisição HTTP REST_
 - [ktlint](https://github.com/pinterest/ktlint) - _padrão de formatação de código_
 - [MockK](https://mockk.io/) - _biblioteca de mock para o kotlin_
+- [JUnit4](https://junit.org/junit4/) - _validação de testes_
 - [Espresso](https://developer.android.com/training/testing/espresso) - _Testes de UI_
 
 # Guia de Instalação
@@ -60,4 +61,7 @@ _**Presentation** (UI)_ <br>
 É a camada mais próxima do que o usuário vê na tela, fazendo uso de viewModels e liveDatas para gerenciar dados e estados em um ciclo de vida 
 
 # Testes
-No módulo feature-movie foram feitos testes unitários nas classes DetailsViewModel, Movie e SimilarMovie. Foram utilizados os frameworks MockK para mockar objetos e JUnit4 para validar os testes.
+No módulo feature-movie foram feitos testes unitários nas classes DetailsViewModel, MovieMapper, Movie e SimilarMovie. Foram utilizados os frameworks [MockK](https://mockk.io/) para mockar objetos e [JUnit4](https://junit.org/junit4/)  para validar os testes.
+
+# Comentários
+Nas instruções do desafio, é pedido para que use o dado `popularity` da API para o número de views. Porém, de acordo com o próprio site, essa variável se refere a um score calculado internamente para estimar o quão popular um filme é. No projeto eu considerei ele sendo como um número de views mesmo!
