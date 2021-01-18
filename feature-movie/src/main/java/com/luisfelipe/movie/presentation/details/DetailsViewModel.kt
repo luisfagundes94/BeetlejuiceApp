@@ -23,6 +23,10 @@ class DetailsViewModel(
     private val coroutineDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
+    private companion object {
+        const val BEETLEJUICE_MOVIE_ID = 4011
+    }
+
     private val _movieDetailsResultStatus = MutableLiveData<ResultStatus<Movie>>()
     val movieDetailsResultStatus: LiveData<ResultStatus<Movie>> = _movieDetailsResultStatus
 
@@ -38,10 +42,6 @@ class DetailsViewModel(
 
     @VisibleForTesting
     internal var isSimilarMovieListLoading = false
-
-    private companion object {
-        const val BEETLEJUICE_MOVIE_ID = 4011
-    }
 
     fun getMovieDetails() = viewModelScope.launch(coroutineDispatcher) {
         _isLoading.postValue(true)
