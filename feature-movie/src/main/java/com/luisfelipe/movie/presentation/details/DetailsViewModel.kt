@@ -3,8 +3,8 @@ package com.luisfelipe.movie.presentation.details
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.luisfelipe.base.presentation.BaseViewModel
 import com.luisfelipe.core.result.ResultStatus
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
@@ -21,7 +21,7 @@ class DetailsViewModel(
     private val getIsFavoriteMovieFromCache: GetIsFavoriteMovieFromCache,
     private val setIsFavoriteMovieToCache: SetIsFavoriteMovieToCache,
     private val coroutineDispatcher: CoroutineDispatcher
-) : BaseViewModel<Movie>(coroutineDispatcher) {
+) : ViewModel() {
 
     private companion object {
         const val BEETLEJUICE_MOVIE_ID = 4011
@@ -43,14 +43,14 @@ class DetailsViewModel(
     @VisibleForTesting
     internal var isSimilarMovieListLoading = false
 
-    fun getMovieDetails() = launch {
+    fun getMovieDetails() = viewModelScope.launch(coroutineDispatcher) {
         _isLoading.postValue(true)
         val movieDetailsResultStatus = getMovieDetailsFromApi(BEETLEJUICE_MOVIE_ID)
         _movieDetailsResultStatus.postValue(movieDetailsResultStatus)
         _isLoading.postValue(false)
     }
 
-    fun getSimilarMovies() = launch {
+    fun getSimilarMovies() =  viewModelScope.launch(coroutineDispatcher)  {
         isSimilarMovieListLoading = true
         val similarMoviesResultStatus = getSimilarMoviesFromApi(BEETLEJUICE_MOVIE_ID)
         _similarMoviesResultStatus.postValue(similarMoviesResultStatus)
