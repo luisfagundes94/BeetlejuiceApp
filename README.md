@@ -17,7 +17,7 @@ Aplicativo para android onde é apresentado informações sobre o maravilhoso fi
   * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) - _notificação para as views através de variáveis observáveis_
   * [Lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle) - _gerenciamento do ciclo de vida_
   * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - _gerenciamento e armazenamento dados relacionados a UI_
-  * [Room](https://developer.android.com/jetpack/androidx/releases/room) - _persistência de dados)
+  * [Room](https://developer.android.com/jetpack/androidx/releases/room) - _persistência de dados_
 - [Picasso](https://square.github.io/picasso/) - _carregamento de imagens web para imageViews_
 - [Gson](https://github.com/google/gson) - _conversor de JSON para classe de modelo e vice-versa_
 - [Retrofit](https://square.github.io/retrofit/) - _requisição HTTP REST_
