@@ -85,9 +85,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     onFavoriteIconClick(movie)
                     setMovieInfo(movie)
                 }
-                is ResultStatus.Error -> {
-                    toast(getString(R.string.warning_failed_to_fetch_movie_details))
-                }
+                is ResultStatus.Error -> toast(getString(R.string.warning_failed_to_fetch_movie_details))
             }
         })
     }
@@ -98,9 +96,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 is ResultStatus.Success -> similarMovieListAdapter.updateSimilarMovies(
                     resultStatus.data
                 )
-                is ResultStatus.Error -> {
-                    toast(getString(R.string.warning_failed_to_fetch_similar_movies))
-                }
+                is ResultStatus.Error ->  toast(getString(R.string.warning_failed_to_fetch_similar_movies))
             }
         })
     }
