@@ -1,6 +1,6 @@
 package com.luisfelipe.movie.domain.repository
 
-import com.luisfelipe.movie.domain.enums.ResultStatus
+import com.luisfelipe.core.result.ResultStatus
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
 

@@ -1,5 +1,5 @@
-import com.luisfelipe.buildSrc.Dependencies
 import com.luisfelipe.buildSrc.Versions
+import com.luisfelipe.buildSrc.Dependencies
 
 plugins {
     id 'com.android.library'
@@ -19,10 +19,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildFeatures {
-        viewBinding true
-    }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -39,22 +35,6 @@ android {
 }
 
 dependencies {
-
-    // Module
-    implementation project(':feature-movie')
-    implementation project(':core')
-
-    // Core
-    implementation Dependencies.Core.kotlin_stdlib
-    implementation Dependencies.Core.core_ktx
-    implementation Dependencies.Core.appcompat
-    implementation Dependencies.Core.navigation_fragment
-    implementation Dependencies.Core.navigation_ui
-
-    // UI
-    implementation Dependencies.UI.constraint_layout
-    implementation Dependencies.UI.material
-
     // DI
     implementation Dependencies.DI.koin
     implementation Dependencies.DI.koin_core

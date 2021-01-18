@@ -1,10 +1,10 @@
 package com.luisfelipe.movie.data
 
+import com.luisfelipe.core.result.ResultStatus
 import com.luisfelipe.movie.data.local.dao.GenreDao
 import com.luisfelipe.movie.data.mapper.GenreMapper
 import com.luisfelipe.movie.data.mapper.MovieMapper
 import com.luisfelipe.movie.data.remote.service.TheMovieDbService
-import com.luisfelipe.movie.domain.enums.ResultStatus
 import com.luisfelipe.movie.domain.model.Genre
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie

@@ -1,8 +1,8 @@
 package com.luisfelipe.movie.presentation.details
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.luisfelipe.core.result.ResultStatus
 import com.luisfelipe.extensions.getOrAwaitValue
-import com.luisfelipe.movie.domain.enums.ResultStatus
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
 import com.luisfelipe.movie.domain.usecase.GetIsFavoriteMovieFromCache

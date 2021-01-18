@@ -1,6 +1,7 @@
 package com.luisfelipe.beetlejuiceapp
 
 import android.app.Application
+import com.luisfelipe.base.di.baseModule
 import com.luisfelipe.movie.di.movieModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -18,6 +19,7 @@ class Application : Application() {
             androidContext(this@Application)
             modules(
                 listOf(
+                    baseModule,
                     movieModule
                 )
             )

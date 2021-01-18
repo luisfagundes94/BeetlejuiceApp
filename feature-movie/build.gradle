@@ -48,6 +48,7 @@ dependencies {
     // Module
     implementation project(':extensions')
     implementation project(':resources')
+    implementation project(':core')
 
     // Core
     implementation Dependencies.Core.kotlin_stdlib

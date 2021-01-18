@@ -42,6 +42,7 @@ dependencies {
     implementation project(':extensions')
     implementation project(':feature-movie')
     implementation project(':resources')
+    implementation project(':core')
 
     // Core
     implementation Dependencies.Core.kotlin_stdlib

@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.luisfelipe.movie.domain.enums.ResultStatus
+import com.luisfelipe.core.result.ResultStatus
 import com.luisfelipe.movie.domain.model.Movie
 import com.luisfelipe.movie.domain.model.SimilarMovie
 import com.luisfelipe.movie.domain.usecase.GetIsFavoriteMovieFromCache
