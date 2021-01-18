@@ -30,14 +30,14 @@ class MovieMapper {
                     title = similarMovieResponse.title,
                     releaseDate = similarMovieResponse.releaseDate,
                     poster = BASE_IMAGE_PATH + similarMovieResponse.posterPath,
-                    genreNames = getGenreNamesFromIds(genres, similarMovieResponse.genreIds)
+                    genreNames = mapGenreIdsToGenreNames(similarMovieResponse.genreIds, genres)
                 )
                 similarMovies.add(similarMovie)
             }
             return similarMovies
         }
 
-        internal fun getGenreNamesFromIds(genres: List<Genre>, genreIds: List<Int>): List<String> {
+        internal fun mapGenreIdsToGenreNames(genreIds: List<Int>, genres: List<Genre>): List<String> {
             val filteredGenres = genres.filter { genre -> genreIds.contains(genre.id) }
             return filteredGenres.map { it.name }
         }

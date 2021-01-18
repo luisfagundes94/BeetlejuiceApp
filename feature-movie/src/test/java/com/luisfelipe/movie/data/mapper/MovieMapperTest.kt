@@ -18,7 +18,7 @@ class MovieMapperTest {
     @Test
     fun `should return genre names given genre ids`() {
         // Act
-        val result = MovieMapper.getGenreNamesFromIds(fakeGenreList, fakeGenreIds)
+        val result = MovieMapper.mapGenreIdsToGenreNames(fakeGenreIds, fakeGenreList)
 
         // Assert
         val expectedValue = listOf("Comedia", "Terror")
