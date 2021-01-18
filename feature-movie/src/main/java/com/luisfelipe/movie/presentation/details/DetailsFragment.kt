@@ -82,8 +82,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 is ResultStatus.Success -> {
                     val movie = resultStatus.data
                     updateInitialFavoriteIconState(movie.id)
-                    onFavoriteIconClick(movie)
                     setMovieInfo(movie)
+                    onFavoriteIconClick(movie)
                 }
                 is ResultStatus.Error -> toast(getString(R.string.warning_failed_to_fetch_movie_details))
             }
