@@ -151,7 +151,7 @@ class DetailsViewModelTest {
         viewModel.isSimilarMovieListLoading = false
 
         viewModel.requestNextPage()
-        
+
         verify(exactly = 1) { viewModel.getSimilarMovies() }
     }
 }
