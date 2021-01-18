@@ -41,7 +41,6 @@ android {
 dependencies {
 
     // Module
-    implementation project(':feature-movie')
     implementation project(':core')
 
     // Core
